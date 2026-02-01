@@ -399,7 +399,7 @@ export default function BlobTracker() {
             </div>
           </div>
 
-                      <div className="bg-black p-4 border border-white">
+            <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
                 <span className="text-sm text-white font-medium uppercase tracking-tight">Number Size: {numberSize}px</span>
                 <input 
