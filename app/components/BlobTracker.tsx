@@ -66,8 +66,19 @@ export default function BlobTracker() {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
+
+      const types = [
+        'video/mp4;codecs=h264',
+        'video/mp4',
+        'video/webm;codecs=vp9',
+        'video/webm'
+      ];
+      
+      const supportedType = types.find(type => MediaRecorder.isTypeSupported(type)) || 'video/webm';
+      const extension = supportedType.includes('mp4') ? 'mp4' : 'webm';
+
       const stream = canvas.captureStream(30);
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+      const recorder = new MediaRecorder(stream, { mimeType: supportedType });
       
       mediaRecorderRef.current = recorder;
       chunksRef.current = [];
@@ -77,11 +88,11 @@ export default function BlobTracker() {
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+        const blob = new Blob(chunksRef.current, { type: supportedType });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `blob-tracking-${Date.now()}.webm`;
+        a.download = `blob-tracking-${Date.now()}.${extension}`;
         a.click();
         URL.revokeObjectURL(url);
       };
@@ -203,9 +214,8 @@ export default function BlobTracker() {
       }
 
       activeBlobs.forEach(blob => {
-        // Simple deterministic randomization based on blob.id
-        const randW = ((Math.sin(blob.id * 1234.567) + 1) / 2) * 2 - 1; // -1 to 1
-        const randH = ((Math.sin(blob.id * 8910.111) + 1) / 2) * 2 - 1; // -1 to 1
+        const randW = ((Math.sin(blob.id * 1234.567) + 1) / 2) * 2 - 1;
+        const randH = ((Math.sin(blob.id * 8910.111) + 1) / 2) * 2 - 1;
 
         const width = currentSize * (1 + randW * (currentRandom / 100));
         const height = currentSize * (1 + randH * (currentRandom / 100));
