@@ -17,6 +17,7 @@ export default function BlobTracker() {
   const [threshold, setThreshold] = useState(200);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [blobSize, setBlobSize] = useState(40);
+  const [sizeRandomness, setSizeRandomness] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
 
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -29,12 +30,13 @@ export default function BlobTracker() {
     showLines,
     threshold,
     blobSize,
+    sizeRandomness,
     fontLoaded
   });
 
   useEffect(() => {
-    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, fontLoaded };
-  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, fontLoaded]);
+    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, fontLoaded };
+  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, fontLoaded]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -109,6 +111,7 @@ export default function BlobTracker() {
         showLines: currentShowLines, 
         threshold: currentThresh, 
         blobSize: currentSize,
+        sizeRandomness: currentRandom,
         fontLoaded: currentFontReady
       } = stateRef.current;
 
@@ -197,8 +200,15 @@ export default function BlobTracker() {
       }
 
       activeBlobs.forEach(blob => {
+        // Simple deterministic randomization based on blob.id
+        const randW = ((Math.sin(blob.id * 1234.567) + 1) / 2) * 2 - 1; // -1 to 1
+        const randH = ((Math.sin(blob.id * 8910.111) + 1) / 2) * 2 - 1; // -1 to 1
+
+        const width = currentSize * (1 + randW * (currentRandom / 100));
+        const height = currentSize * (1 + randH * (currentRandom / 100));
+
         ctx.beginPath();
-        ctx.rect(blob.x - currentSize/2, blob.y - currentSize/2, currentSize, currentSize);
+        ctx.rect(blob.x - width/2, blob.y - height/2, width, height);
         ctx.strokeStyle = "#efefef";
         ctx.lineWidth = 3;
         ctx.stroke();
@@ -209,8 +219,8 @@ export default function BlobTracker() {
             ctx.font = `500 ${fontSize}px "EnvyCodeR Nerd Font Mono", monospace`;
             ctx.textAlign = "left";
             ctx.textBaseline = "top";
-            const padding = currentSize * 0.1;
-            ctx.fillText(blob.id.toString(), blob.x - currentSize/2, blob.y + currentSize/2 + padding);
+            const padding = height * 0.1;
+            ctx.fillText(blob.id.toString(), blob.x - width/2, blob.y + height/2 + padding);
         }
       });
 
@@ -335,13 +345,29 @@ export default function BlobTracker() {
 
             <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
-                <span className="text-sm text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Size Randomness: {sizeRandomness}%</span>
                 <input 
                     type="range" 
-                    min="1" 
-                    max="20" 
-                    value={maxBlobs} 
-                    onChange={(e) => setMaxBlobs(Number(e.target.value))}
+                    min="0" 
+                    max="300" 
+                    value={sizeRandomness} 
+                    onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                    className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
+                  />
+              </label>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-black p-4 border border-white">
+               <label className="flex flex-col gap-2">
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
+                <input 
+                    type="range" 
+                    min="10" 
+                    max="100" 
+                    value={blobSize} 
+                    onChange={(e) => setBlobSize(Number(e.target.value))}
                     className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                   />
               </label>
@@ -349,13 +375,13 @@ export default function BlobTracker() {
 
             <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
-                <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
                 <input 
                     type="range" 
-                    min="10" 
-                    max="150" 
-                    value={blobSize} 
-                    onChange={(e) => setBlobSize(Number(e.target.value))}
+                    min="1" 
+                    max="20" 
+                    value={maxBlobs} 
+                    onChange={(e) => setMaxBlobs(Number(e.target.value))}
                     className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                   />
               </label>
