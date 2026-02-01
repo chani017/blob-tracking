@@ -14,12 +14,12 @@ export default function BlobTracker() {
   const [maxBlobs, setMaxBlobs] = useState(5);
   const [showNumbers, setShowNumbers] = useState(true);
   const [showLines, setShowLines] = useState(true);
-  const [threshold, setThreshold] = useState(200);
+  const [threshold, setThreshold] = useState(100);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [blobSize, setBlobSize] = useState(40);
-  const [sizeRandomness, setSizeRandomness] = useState(0);
+  const [sizeRandomness, setSizeRandomness] = useState(200);
   const [numberSize, setNumberSize] = useState(18);
-  const [labelType, setLabelType] = useState<'id' | 'size'>('id');
+  const [labelType, setLabelType] = useState<'size' | 'id'>('size');
   const [isRecording, setIsRecording] = useState(false);
 
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -273,10 +273,10 @@ export default function BlobTracker() {
   }, [videoSrc]);
 
   return (
-    <div className="flex flex-col items-center w-full min-h-screen bg-black text-white p-8">
-      <div className="max-w-6xl w-full flex flex-col md:flex-row gap-8">
+    <main className="flex flex-col items-center w-full min-h-screen bg-black text-white p-8">
+      <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8">
         
-        <div className="flex-grow flex flex-col gap-6 md:w-2/3">
+        <article className="flex-grow flex flex-col gap-6 md:w-2/3">
           <div className="flex justify-between items-center p-6 bg-black border border-white">
             <h1 className="text-white tracking-tight">
               Blob Tracking
@@ -338,10 +338,10 @@ export default function BlobTracker() {
               className={`w-full h-full object-contain block ${!videoSrc ? 'hidden' : ''}`}
             />
           </div>
-        </div>
+        </article>
 
-        <div className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px]">
-          <div className="bg-black p-4 border border-white flex items-center justify-between">
+        <article className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px]">
+          <article className="bg-black p-4 border border-white flex items-center justify-between">
              <span className="text-sm text-white font-medium uppercase tracking-tight">Show Labels</span>
              <button 
                 onClick={() => setShowNumbers(!showNumbers)}
@@ -349,9 +349,9 @@ export default function BlobTracker() {
              >
                 <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showNumbers ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
              </button>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white flex items-center justify-between">
+          <article className="bg-black p-4 border border-white flex items-center justify-between">
              <span className="text-sm text-white font-medium uppercase tracking-tight">Connect Lines</span>
              <button 
                 onClick={() => setShowLines(!showLines)}
@@ -359,27 +359,27 @@ export default function BlobTracker() {
              >
                 <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
              </button>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white flex items-center justify-between">
+          <article className="bg-black p-4 border border-white flex items-center justify-between">
              <span className="text-sm text-white font-medium uppercase tracking-tight">Label Type</span>
              <div className="flex border border-white">
                <button 
                 onClick={() => setLabelType('id')}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-black text-white' : 'bg-white text-black'}`}
                >
                  ID
                </button>
                <button 
                 onClick={() => setLabelType('size')}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-black text-white' : 'bg-white text-black'}`}
                >
                  Size
                </button>
              </div>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white">
+          <article className="bg-black p-4 border border-white">
             <label className="flex flex-col gap-2">
               <span className="text-sm text-white font-medium uppercase tracking-tight">Threshold</span>
               <div className="flex items-center gap-3">
@@ -395,9 +395,9 @@ export default function BlobTracker() {
                 <span className="text-[10px] w-6 text-neutral-500 uppercase">High</span>
               </div>
             </label>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white">
+          <article className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
               <span className="text-sm text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
               <input 
@@ -409,9 +409,9 @@ export default function BlobTracker() {
                   className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                 />
             </label>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white">
+          <article className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
               <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
               <input 
@@ -423,9 +423,9 @@ export default function BlobTracker() {
                   className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                 />
             </label>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white">
+          <article className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
               <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size Randomness: {sizeRandomness}%</span>
               <input 
@@ -437,9 +437,9 @@ export default function BlobTracker() {
                   className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                 />
             </label>
-          </div>
+          </article>
 
-          <div className="bg-black p-4 border border-white">
+          <article className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
               <span className="text-sm text-white font-medium uppercase tracking-tight">Label Size: {numberSize}px</span>
               <input 
@@ -451,15 +451,15 @@ export default function BlobTracker() {
                   className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                 />
             </label>
-          </div>
+          </article>
 
-          <div className="mt-auto">
+          <footer className="mt-auto">
             <p className="text-[10px] text-neutral-500 tracking-widest">
               © 2026 @dachanjeong.xyz All rights reserved.
             </p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </footer>
+        </article>
+      </section>
+    </main>
   );
 }
