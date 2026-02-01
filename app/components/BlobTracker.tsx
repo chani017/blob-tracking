@@ -340,7 +340,7 @@ export default function BlobTracker() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-black p-4 border border-white">
               <label className="flex flex-col gap-2">
-                <span className="text-sm text-white font-medium uppercase tracking-tight">Sensitivity</span>
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Threshold</span>
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] w-6 text-neutral-500 uppercase">Low</span>
                   <input 
