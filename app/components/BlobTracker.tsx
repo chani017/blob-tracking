@@ -19,6 +19,7 @@ export default function BlobTracker() {
   const [blobSize, setBlobSize] = useState(40);
   const [sizeRandomness, setSizeRandomness] = useState(0);
   const [numberSize, setNumberSize] = useState(18);
+  const [labelType, setLabelType] = useState<'id' | 'size'>('id');
   const [isRecording, setIsRecording] = useState(false);
 
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -33,12 +34,13 @@ export default function BlobTracker() {
     blobSize,
     sizeRandomness,
     numberSize,
+    labelType,
     fontLoaded
   });
 
   useEffect(() => {
-    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, fontLoaded };
-  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, fontLoaded]);
+    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fontLoaded };
+  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fontLoaded]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -248,7 +250,15 @@ export default function BlobTracker() {
             ctx.textAlign = "left";
             ctx.textBaseline = "top";
             const padding = 6 * scaleFactor;
-            ctx.fillText(blob.id.toString(), blob.x - width/2, blob.y + height/2 + padding);
+            
+            let label = blob.id.toString();
+            if (stateRef.current.labelType === 'size') {
+                const relW = width / canvas.width;
+                const relH = height / canvas.height;
+                label = `x=${relW.toFixed(3)}, y=${relH.toFixed(3)}`;
+            }
+            
+            ctx.fillText(label, blob.x - width/2, blob.y + height/2 + padding);
         }
       });
 
@@ -349,6 +359,24 @@ export default function BlobTracker() {
              >
                 <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
              </button>
+          </div>
+
+          <div className="bg-black p-4 border border-white flex items-center justify-between">
+             <span className="text-sm text-white font-medium uppercase tracking-tight">Label Type</span>
+             <div className="flex border border-white">
+               <button 
+                onClick={() => setLabelType('id')}
+                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+               >
+                 ID
+               </button>
+               <button 
+                onClick={() => setLabelType('size')}
+                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+               >
+                 Size
+               </button>
+             </div>
           </div>
 
           <div className="bg-black p-4 border border-white">
