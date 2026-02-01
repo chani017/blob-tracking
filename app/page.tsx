@@ -6,7 +6,7 @@ export default function Home() {
       <main className="min-h-screen bg-black">
         <BlobTracker />
       </main>
-      <footer className="fixed bottom-0 left-0 right-0 z-10 md:static h-24 bg-background py-4 px-6 pt-4">
+      <footer className="relative md:static h-16 bg-background py-4 px-6 text-xs">
         <p>© 2026 @dachanjeong.xyz All rights reserved.</p>
       </footer>
     </>

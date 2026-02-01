@@ -191,7 +191,7 @@ export default function BlobTracker() {
             else ctx.lineTo(blob.x, blob.y);
         });
         ctx.lineTo(activeBlobs[0].x, activeBlobs[0].y);
-        ctx.strokeStyle = "white";
+        ctx.strokeStyle = "#efefef";
         ctx.lineWidth = 2;
         ctx.stroke();
       }
@@ -199,13 +199,13 @@ export default function BlobTracker() {
       activeBlobs.forEach(blob => {
         ctx.beginPath();
         ctx.rect(blob.x - currentSize/2, blob.y - currentSize/2, currentSize, currentSize);
-        ctx.strokeStyle = "white";
+        ctx.strokeStyle = "#efefef";
         ctx.lineWidth = 3;
         ctx.stroke();
 
         if (currentShowNum) {
             const fontSize = Math.max(10, Math.floor(currentSize * 0.4));
-            ctx.fillStyle = "white";
+            ctx.fillStyle = "#efefef";
             ctx.font = `500 ${fontSize}px "EnvyCodeR Nerd Font Mono", monospace`;
             ctx.textAlign = "left";
             ctx.textBaseline = "top";
@@ -229,7 +229,7 @@ export default function BlobTracker() {
       <div className="max-w-4xl w-full flex flex-col gap-6">
         
         <div className="flex justify-between items-center p-6 bg-black border border-white">
-          <h1 className="text-white">
+          <h1 className="text-white tracking-tight">
             Blob Tracking
           </h1>
           <div className="flex gap-3">
@@ -246,7 +246,7 @@ export default function BlobTracker() {
                 {isRecording ? 'Stop Recording' : 'Record Result'}
               </button>
             )}
-            <label className="cursor-pointer bg-black border border-white hover:bg-white transition px-4 py-2 font-medium text-sm hover:text-black">
+            <label className="cursor-pointer bg-black border border-white hover:bg-white transition px-4 py-2 font-medium text-sm hover:text-black tracking-tight">
               Upload Video
               <input 
                 type="file" 
@@ -264,7 +264,6 @@ export default function BlobTracker() {
         >
           {!videoSrc && (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               <p className="font-medium">Upload a video to start tracking</p>
             </div>
           )}
