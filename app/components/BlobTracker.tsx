@@ -342,7 +342,7 @@ export default function BlobTracker() {
 
         <div className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px]">
           <div className="bg-black p-4 border border-white flex items-center justify-between">
-             <span className="text-sm text-white font-medium uppercase tracking-tight">Show Numbers</span>
+             <span className="text-sm text-white font-medium uppercase tracking-tight">Show Labels</span>
              <button 
                 onClick={() => setShowNumbers(!showNumbers)}
                 className={`w-12 h-6 transition-colors relative border border-white ${showNumbers ? 'bg-white' : 'bg-black'}`}
@@ -427,7 +427,7 @@ export default function BlobTracker() {
 
           <div className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
-              <span className="text-sm text-white font-medium uppercase tracking-tight">Size Randomness: {sizeRandomness}%</span>
+              <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size Randomness: {sizeRandomness}%</span>
               <input 
                   type="range" 
                   min="0" 
@@ -441,7 +441,7 @@ export default function BlobTracker() {
 
           <div className="bg-black p-4 border border-white">
              <label className="flex flex-col gap-2">
-              <span className="text-sm text-white font-medium uppercase tracking-tight">Number Size: {numberSize}px</span>
+              <span className="text-sm text-white font-medium uppercase tracking-tight">Label Size: {numberSize}px</span>
               <input 
                   type="range" 
                   min="10" 
