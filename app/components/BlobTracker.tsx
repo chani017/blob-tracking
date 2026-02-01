@@ -201,6 +201,8 @@ export default function BlobTracker() {
       const activeBlobs = blobs.slice(0, currentMax);
       activeBlobs.forEach((b, i) => b.id = i);
 
+      const scaleFactor = Math.max(0.4, canvas.width / 1280);
+
       if (currentShowLines && activeBlobs.length > 1) {
         ctx.beginPath();
         activeBlobs.forEach((blob, i) => {
@@ -209,7 +211,7 @@ export default function BlobTracker() {
         });
         ctx.lineTo(activeBlobs[0].x, activeBlobs[0].y);
         ctx.strokeStyle = "#efefef";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2 * scaleFactor;
         ctx.stroke();
       }
 
@@ -223,7 +225,7 @@ export default function BlobTracker() {
         ctx.beginPath();
         ctx.rect(blob.x - width/2, blob.y - height/2, width, height);
         ctx.strokeStyle = "#efefef";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 3 * scaleFactor;
         ctx.stroke();
 
         if (currentShowNum) {
