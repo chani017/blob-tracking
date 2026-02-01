@@ -19,7 +19,6 @@ export default function BlobTracker() {
   const [blobSize, setBlobSize] = useState(40);
   const [sizeRandomness, setSizeRandomness] = useState(0);
   const [numberSize, setNumberSize] = useState(18);
-  const [fps, setFps] = useState(30);
   const [isRecording, setIsRecording] = useState(false);
 
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -44,6 +43,8 @@ export default function BlobTracker() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
+  const offCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const visitedRef = useRef<Uint8Array | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -78,7 +79,7 @@ export default function BlobTracker() {
       const supportedType = types.find(type => MediaRecorder.isTypeSupported(type)) || 'video/webm';
       const extension = supportedType.includes('mp4') ? 'mp4' : 'webm';
 
-      const stream = canvas.captureStream(fps);
+      const stream = canvas.captureStream(60);
       const recorder = new MediaRecorder(stream, { mimeType: supportedType });
       
       mediaRecorderRef.current = recorder;
@@ -141,10 +142,16 @@ export default function BlobTracker() {
       const smallW = Math.floor(canvas.width * scale);
       const smallH = Math.floor(canvas.height * scale);
       
-      const offCanvas = document.createElement('canvas');
-      offCanvas.width = smallW;
-      offCanvas.height = smallH;
-      const offCtx = offCanvas.getContext('2d');
+      if (!offCanvasRef.current) {
+        offCanvasRef.current = document.createElement('canvas');
+      }
+      const offCanvas = offCanvasRef.current;
+      if (offCanvas.width !== smallW || offCanvas.height !== smallH) {
+        offCanvas.width = smallW;
+        offCanvas.height = smallH;
+      }
+      
+      const offCtx = offCanvas.getContext('2d', { alpha: false });
       if (!offCtx) return;
 
       offCtx.drawImage(video, 0, 0, smallW, smallH);
@@ -152,7 +159,13 @@ export default function BlobTracker() {
       const data = frameData.data;
 
       const blobs: BlobPoint[] = [];
-      const visited = new Uint8Array(smallW * smallH);
+      const totalPixels = smallW * smallH;
+      if (!visitedRef.current || visitedRef.current.length !== totalPixels) {
+        visitedRef.current = new Uint8Array(totalPixels);
+      } else {
+        visitedRef.current.fill(0);
+      }
+      const visited = visitedRef.current;
 
       for (let y = 0; y < smallH; y++) {
         for (let x = 0; x < smallW; x++) {
@@ -336,24 +349,6 @@ export default function BlobTracker() {
              >
                 <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
              </button>
-          </div>
-
-          <div className="bg-black p-4 border border-white flex items-center justify-between">
-             <span className="text-sm text-white font-medium uppercase tracking-tight">Recording FPS</span>
-             <div className="flex border border-white">
-               <button 
-                onClick={() => setFps(30)}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${fps === 30 ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
-               >
-                 30
-               </button>
-               <button 
-                onClick={() => setFps(60)}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${fps === 60 ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
-               >
-                 60
-               </button>
-             </div>
           </div>
 
           <div className="bg-black p-4 border border-white">
