@@ -18,6 +18,7 @@ export default function BlobTracker() {
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [blobSize, setBlobSize] = useState(40);
   const [sizeRandomness, setSizeRandomness] = useState(0);
+  const [numberSize, setNumberSize] = useState(18);
   const [isRecording, setIsRecording] = useState(false);
 
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -31,12 +32,13 @@ export default function BlobTracker() {
     threshold,
     blobSize,
     sizeRandomness,
+    numberSize,
     fontLoaded
   });
 
   useEffect(() => {
-    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, fontLoaded };
-  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, fontLoaded]);
+    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, fontLoaded };
+  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, fontLoaded]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -112,6 +114,7 @@ export default function BlobTracker() {
         threshold: currentThresh, 
         blobSize: currentSize,
         sizeRandomness: currentRandom,
+        numberSize: currentNumSize,
         fontLoaded: currentFontReady
       } = stateRef.current;
 
@@ -214,9 +217,8 @@ export default function BlobTracker() {
         ctx.stroke();
 
         if (currentShowNum) {
-            const fontSize = Math.max(10, Math.floor(currentSize * 0.4));
             ctx.fillStyle = "#efefef";
-            ctx.font = `500 ${fontSize}px "EnvyCodeR Nerd Font Mono", monospace`;
+            ctx.font = `500 ${currentNumSize}px "EnvyCodeR Nerd Font Mono", monospace`;
             ctx.textAlign = "left";
             ctx.textBaseline = "top";
             const padding = height * 0.1;
@@ -302,6 +304,7 @@ export default function BlobTracker() {
 
         <div className="flex flex-col gap-4">
           
+          
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-black p-4 border border-white flex items-center justify-between">
                <span className="text-sm text-white font-medium uppercase tracking-tight">Show Numbers</span>
@@ -342,23 +345,21 @@ export default function BlobTracker() {
                 </div>
               </label>
             </div>
-
             <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
-                <span className="text-sm text-white font-medium uppercase tracking-tight">Size Randomness: {sizeRandomness}%</span>
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
                 <input 
                     type="range" 
-                    min="0" 
-                    max="300" 
-                    value={sizeRandomness} 
-                    onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                    min="1" 
+                    max="20" 
+                    value={maxBlobs} 
+                    onChange={(e) => setMaxBlobs(Number(e.target.value))}
                     className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                   />
               </label>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
                 <span className="text-sm text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
@@ -375,13 +376,28 @@ export default function BlobTracker() {
 
             <div className="bg-black p-4 border border-white">
                <label className="flex flex-col gap-2">
-                <span className="text-sm text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Size Randomness: {sizeRandomness}%</span>
                 <input 
                     type="range" 
-                    min="1" 
-                    max="20" 
-                    value={maxBlobs} 
-                    onChange={(e) => setMaxBlobs(Number(e.target.value))}
+                    min="0" 
+                    max="300" 
+                    value={sizeRandomness} 
+                    onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                    className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
+                  />
+              </label>
+            </div>
+          </div>
+
+                      <div className="bg-black p-4 border border-white">
+               <label className="flex flex-col gap-2">
+                <span className="text-sm text-white font-medium uppercase tracking-tight">Number Size: {numberSize}px</span>
+                <input 
+                    type="range" 
+                    min="10" 
+                    max="100" 
+                    value={numberSize} 
+                    onChange={(e) => setNumberSize(Number(e.target.value))}
                     className="w-full accent-white h-px bg-white appearance-none cursor-pointer" 
                   />
               </label>
