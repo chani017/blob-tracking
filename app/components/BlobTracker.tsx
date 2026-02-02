@@ -388,13 +388,6 @@ export default function BlobTracker() {
                 ref={canvasRef}
                 className={`w-full h-full object-contain block ${!videoSrc ? 'hidden' : ''}`}
               />
-
-              {isRecording && (
-                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-red-600/90 text-[10px] font-bold uppercase tracking-widest z-20">
-                  <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  Recording
-                </div>
-              )}
             </div>
           </div>
         </article>
