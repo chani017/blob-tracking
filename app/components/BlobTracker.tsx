@@ -15,15 +15,15 @@ const t = {
       kr: "객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다."
   },
   maxBlobs: {
-      en: "Sets the maximum number of objects to display on screen.",
+      en: "Sets the maximum number of blobs to display on screen.",
       kr: "화면에 표시할 최대 객체 수를 설정합니다."
   },
   blobSize: {
-      en: "Adjusts the base size of the rectangles representing detected objects.",
+      en: "Adjusts the base size of the rectangles representing detected blobs.",
       kr: "감지된 객체를 표시할 사각형의 기본 크기를 조절합니다."
   },
   randomness: {
-      en: "Adds randomness to sizes. Higher values increase size variation between objects.",
+      en: "Adds randomness to sizes. Higher values increase size variation between blobs.",
       kr: "각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다."
   },
   fillMode: {
@@ -35,7 +35,7 @@ const t = {
       kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다."
   },
   showLabels: {
-      en: "Toggles the display of labels on each object.",
+      en: "Toggles the display of labels on each blob.",
       kr: "각 객체에 라벨을 표시할지 여부를 결정합니다."
   },
   labelType: {
@@ -47,7 +47,7 @@ const t = {
       kr: "라벨 텍스트의 크기를 조절합니다."
   },
   connectLines: {
-      en: "Connects detected objects with lines to show paths or relationships.",
+      en: "Connects detected blobs with lines to show paths or relationships.",
       kr: "감지된 객체들을 선으로 연결합니다."
   },
   linePattern: {
@@ -59,8 +59,8 @@ const t = {
       kr: "연결선의 곡률 정도를 조절합니다."
   },
   colorControl: {
-      en: "Changes colors of squares and lines by adjusting R, G, B values.",
-      kr: "사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다."
+      en: "Changes colors of blobs and lines by adjusting R, G, B values.",
+      kr: "객체와 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다."
   }
 };
 
