@@ -459,7 +459,7 @@ export default function BlobTracker() {
                 <label className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
-                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{maxBlobs}</span>
+                        <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{maxBlobs}</span>
                     </div>
                     <input 
                         type="range" 
@@ -473,7 +473,7 @@ export default function BlobTracker() {
                 <label className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
-                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{blobSize}px</span>
+                        <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{blobSize}px</span>
                     </div>
                     <input 
                         type="range" 
@@ -487,7 +487,7 @@ export default function BlobTracker() {
                 <label className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
-                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{sizeRandomness}%</span>
+                        <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{sizeRandomness}%</span>
                     </div>
                     <input 
                         type="range" 
@@ -528,7 +528,7 @@ export default function BlobTracker() {
              <label className="flex flex-col gap-2 mt-2">
                 <div className="flex justify-between items-center">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
-                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{fillRatio}%</span>
+                    <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{fillRatio}%</span>
                 </div>
                 <input 
                     type="range" 
@@ -576,7 +576,7 @@ export default function BlobTracker() {
                <label className="flex flex-col gap-2">
                  <div className="flex justify-between items-center">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
-                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{numberSize}px</span>
+                    <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{numberSize}px</span>
                  </div>
                  <input 
                     type="range" 
@@ -624,7 +624,7 @@ export default function BlobTracker() {
                <label className="flex flex-col gap-2">
                  <div className="flex justify-between items-center">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
-                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{lineSmoothness}%</span>
+                    <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{lineSmoothness}%</span>
                  </div>
                  <input 
                     type="range" 
