@@ -303,6 +303,11 @@ export default function BlobTracker() {
   }, [videoSrc]);
 
   useEffect(() => {
+    if (!videoSrc) {
+      setIsFloating(false);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (window.innerWidth < 768) {
@@ -319,14 +324,14 @@ export default function BlobTracker() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [videoSrc]);
 
   return (
     <main className="flex flex-col items-center w-full min-h-screen bg-black text-white p-4 md:p-8">
       <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8">
         
         <article className="flex-grow flex flex-col gap-6 md:w-2/3">
-          <div className="flex justify-between items-center p-6 bg-black border border-white">
+          <div className="flex justify-between items-center p-4 bg-black border border-white">
             <h1 className="text-white tracking-tight font-medium text-xs ring-offset-2">
               Blob Tracking
             </h1>
@@ -363,7 +368,7 @@ export default function BlobTracker() {
           >
             <div className={`${isFloating ? 'fixed top-0 left-2 z-50 w-[45%] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white transform pointer-events-none' : 'relative w-full h-full'}`}>
               {!videoSrc && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10 text-xs">
                 <p className="font-normal">Upload a video to start tracking</p>
                 </div>
               )}
