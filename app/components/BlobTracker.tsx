@@ -450,6 +450,66 @@ export default function BlobTracker() {
             </label>
           </article>
 
+          <article className="bg-black p-4 border border-white">
+            <label className="flex flex-col gap-2">
+               <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
+                <input 
+                  type="range" 
+                  min="30" 
+                  max="250" 
+                  value={280 - threshold} 
+                  onChange={(e) => setThreshold(280 - Number(e.target.value))}
+                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
+                />
+                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
+              </div>
+            </label>
+          </article>
+
+          <article className="bg-black p-4 border border-white">
+             <label className="flex flex-col gap-2">
+               <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
+              <input 
+                  type="range" 
+                  min="1" 
+                  max="20" 
+                  value={maxBlobs} 
+                  onChange={(e) => setMaxBlobs(Number(e.target.value))}
+                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                />
+            </label>
+          </article>
+
+          <article className="bg-black p-4 border border-white">
+             <label className="flex flex-col gap-2">
+               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
+              <input 
+                  type="range" 
+                  min="10" 
+                  max="150" 
+                  value={blobSize} 
+                  onChange={(e) => setBlobSize(Number(e.target.value))}
+                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                />
+            </label>
+          </article>
+
+          <article className="bg-black p-4 border border-white">
+             <label className="flex flex-col gap-2">
+               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness: {sizeRandomness}%</span>
+              <input 
+                  type="range" 
+                  min="0" 
+                  max="300" 
+                  value={sizeRandomness} 
+                  onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                />
+            </label>
+          </article>
+
           <article className="bg-black p-4 border border-white flex flex-col gap-3">
              <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
              <div className="grid grid-cols-2 gap-2">
@@ -522,66 +582,6 @@ export default function BlobTracker() {
                   <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
                 </div>
              </div>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-            <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
-              <div className="flex items-center gap-3">
-                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
-                <input 
-                  type="range" 
-                  min="30" 
-                  max="250" 
-                  value={280 - threshold} 
-                  onChange={(e) => setThreshold(280 - Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
-                />
-                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
-              </div>
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
-              <input 
-                  type="range" 
-                  min="1" 
-                  max="20" 
-                  value={maxBlobs} 
-                  onChange={(e) => setMaxBlobs(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
-              <input 
-                  type="range" 
-                  min="10" 
-                  max="150" 
-                  value={blobSize} 
-                  onChange={(e) => setBlobSize(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness: {sizeRandomness}%</span>
-              <input 
-                  type="range" 
-                  min="0" 
-                  max="300" 
-                  value={sizeRandomness} 
-                  onChange={(e) => setSizeRandomness(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
           </article>
 
           <footer className="mt-auto">
