@@ -9,6 +9,61 @@ interface BlobPoint {
   size: number;
 }
 
+const t = {
+  threshold: {
+      en: "Adjusts detection sensitivity. Higher values detect darker areas, lower values detect only the brightest.",
+      kr: "객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다."
+  },
+  maxBlobs: {
+      en: "Sets the maximum number of objects to display on screen.",
+      kr: "화면에 표시할 최대 객체 수를 설정합니다."
+  },
+  blobSize: {
+      en: "Adjusts the base size of the rectangles representing detected objects.",
+      kr: "감지된 객체를 표시할 사각형의 기본 크기를 조절합니다."
+  },
+  randomness: {
+      en: "Adds randomness to sizes. Higher values increase size variation between objects.",
+      kr: "각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다."
+  },
+  fillMode: {
+      en: "Selects fill mode: Empty, Solid, Lighten, or Invert (Difference).",
+      kr: "객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)"
+  },
+  fillRatio: {
+      en: "Determines the percentage of objects to apply the fill effect to.",
+      kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다."
+  },
+  showLabels: {
+      en: "Toggles the display of labels on each object.",
+      kr: "각 객체에 라벨을 표시할지 여부를 결정합니다."
+  },
+  labelType: {
+      en: "Display detection order (ID) or relative size on labels.",
+      kr: "라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다."
+  },
+  labelSize: {
+      en: "Adjusts the size of the label text.",
+      kr: "라벨 텍스트의 크기를 조절합니다."
+  },
+  connectLines: {
+      en: "Connects detected objects with lines to show paths or relationships.",
+      kr: "감지된 객체들을 선으로 연결합니다."
+  },
+  linePattern: {
+      en: "Sets the line pattern to solid or dashed.",
+      kr: "연결선의 형태를 실선 또는 점선으로 설정합니다."
+  },
+  smoothness: {
+      en: "Adjusts the curvature (smoothness) of the connection lines.",
+      kr: "연결선의 곡률 정도를 조절합니다."
+  },
+  colorControl: {
+      en: "Changes colors of squares and lines by adjusting R, G, B values.",
+      kr: "사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다."
+  }
+};
+
 export default function BlobTracker() {
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
   const [maxBlobs, setMaxBlobs] = useState(5);
@@ -29,61 +84,6 @@ export default function BlobTracker() {
   const [isFloating, setIsFloating] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [lang, setLang] = useState<'en' | 'kr'>('kr');
-
-  const t = {
-    threshold: {
-        en: "Adjusts detection sensitivity. Higher values detect darker areas, lower values detect only the brightest.",
-        kr: "객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다."
-    },
-    maxBlobs: {
-        en: "Sets the maximum number of objects to display on screen.",
-        kr: "화면에 표시할 최대 객체 수를 설정합니다."
-    },
-    blobSize: {
-        en: "Adjusts the base size of the rectangles representing detected objects.",
-        kr: "감지된 객체를 표시할 사각형의 기본 크기를 조절합니다."
-    },
-    randomness: {
-        en: "Adds randomness to sizes. Higher values increase size variation between objects.",
-        kr: "각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다."
-    },
-    fillMode: {
-        en: "Selects fill mode: Empty, Solid, Lighten, or Invert (Difference).",
-        kr: "객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)"
-    },
-    fillRatio: {
-        en: "Determines the percentage of objects to apply the fill effect to.",
-        kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다."
-    },
-    showLabels: {
-        en: "Toggles the display of labels on each object.",
-        kr: "각 객체에 라벨을 표시할지 여부를 결정합니다."
-    },
-    labelType: {
-        en: "Display detection order (ID) or relative size on labels.",
-        kr: "라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다."
-    },
-    labelSize: {
-        en: "Adjusts the size of the label text.",
-        kr: "라벨 텍스트의 크기를 조절합니다."
-    },
-    connectLines: {
-        en: "Connects detected objects with lines to show paths or relationships.",
-        kr: "감지된 객체들을 선으로 연결합니다."
-    },
-    linePattern: {
-        en: "Sets the line pattern to solid or dashed.",
-        kr: "연결선의 형태를 실선 또는 점선으로 설정합니다."
-    },
-    smoothness: {
-        en: "Adjusts the curvature (smoothness) of the connection lines.",
-        kr: "연결선의 곡률 정도를 조절합니다."
-    },
-    colorControl: {
-        en: "Changes colors of squares and lines by adjusting R, G, B values.",
-        kr: "사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다."
-    }
-  };
 
   const [fontLoaded, setFontLoaded] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -115,15 +115,23 @@ export default function BlobTracker() {
   const animationRef = useRef<number>(0);
   const offCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const visitedRef = useRef<Uint8Array | null>(null);
+  const queueBufferRef = useRef<Int32Array | null>(null);
   const viewportContainerRef = useRef<HTMLDivElement>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (videoSrc) URL.revokeObjectURL(videoSrc);
       const url = URL.createObjectURL(file);
       setVideoSrc(url);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (videoSrc) URL.revokeObjectURL(videoSrc);
+    };
+  }, [videoSrc]);
 
   useEffect(() => {
     document.fonts.load('14px "EnvyCodeR Nerd Font Mono"').then(() => {
@@ -231,10 +239,12 @@ export default function BlobTracker() {
       const totalPixels = smallW * smallH;
       if (!visitedRef.current || visitedRef.current.length !== totalPixels) {
         visitedRef.current = new Uint8Array(totalPixels);
+        queueBufferRef.current = new Int32Array(totalPixels);
       } else {
         visitedRef.current.fill(0);
       }
       const visited = visitedRef.current;
+      const queue = queueBufferRef.current!;
 
       for (let y = 0; y < smallH; y++) {
         for (let x = 0; x < smallW; x++) {
@@ -243,26 +253,69 @@ export default function BlobTracker() {
 
           if (brightness > currentThresh && !visited[y * smallW + x]) {
             let sumX = 0, sumY = 0, count = 0;
-            const queue = [[x, y]];
+            let head = 0, tail = 0;
+            
+            queue[tail++] = x;
+            queue[tail++] = y;
             visited[y * smallW + x] = 1;
 
-            while (queue.length > 0) {
-              const [cx, cy] = queue.pop()!;
+            while (head < tail) {
+              const cx = queue[head++];
+              const cy = queue[head++];
               sumX += cx;
               sumY += cy;
               count++;
               
-              const neighbors = [[cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]];
-              for (const [nx, ny] of neighbors) {
-                if (nx >= 0 && nx < smallW && ny >= 0 && ny < smallH) {
-                  const nIdx = (ny * smallW + nx);
-                  if (!visited[nIdx]) {
-                     const pIdx = nIdx * 4;
-                     const nb = (data[pIdx] + data[pIdx + 1] + data[pIdx + 2]) / 3;
-                     if (nb > currentThresh) {
-                       visited[nIdx] = 1;
-                       queue.push([nx, ny]);
-                     }
+              // Manual neighbor check to avoid ANY allocations in the critical loop
+              // Right
+              let nx = cx + 1, ny = cy;
+              if (nx < smallW) {
+                const nIdx = ny * smallW + nx;
+                if (!visited[nIdx]) {
+                  const pIdx = nIdx * 4;
+                  if ((data[pIdx] + data[pIdx + 1] + data[pIdx + 2]) / 3 > currentThresh) {
+                    visited[nIdx] = 1;
+                    queue[tail++] = nx;
+                    queue[tail++] = ny;
+                  }
+                }
+              }
+              // Left
+              nx = cx - 1;
+              if (nx >= 0) {
+                const nIdx = ny * smallW + nx;
+                if (!visited[nIdx]) {
+                  const pIdx = nIdx * 4;
+                  if ((data[pIdx] + data[pIdx + 1] + data[pIdx + 2]) / 3 > currentThresh) {
+                    visited[nIdx] = 1;
+                    queue[tail++] = nx;
+                    queue[tail++] = ny;
+                  }
+                }
+              }
+              // Down
+              nx = cx; ny = cy + 1;
+              if (ny < smallH) {
+                const nIdx = ny * smallW + nx;
+                if (!visited[nIdx]) {
+                  const pIdx = nIdx * 4;
+                  if ((data[pIdx] + data[pIdx + 1] + data[pIdx + 2]) / 3 > currentThresh) {
+                    visited[nIdx] = 1;
+                    queue[tail++] = nx;
+                    queue[tail++] = ny;
+                  }
+                }
+              }
+              // Up
+              ny = cy - 1;
+              if (ny >= 0) {
+                const nIdx = ny * smallW + nx;
+                if (!visited[nIdx]) {
+                  const pIdx = nIdx * 4;
+                  if ((data[pIdx] + data[pIdx + 1] + data[pIdx + 2]) / 3 > currentThresh) {
+                    visited[nIdx] = 1;
+                    queue[tail++] = nx;
+                    queue[tail++] = ny;
                   }
                 }
               }
@@ -416,6 +469,26 @@ export default function BlobTracker() {
     return () => observer.disconnect();
   }, [videoSrc]);
 
+  const renderTooltip = (id: string, text: string) => {
+    if (activeTooltip !== id) return null;
+    return (
+      <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
+        {text}
+      </div>
+    );
+  };
+
+  const renderInfoButton = (id: string) => (
+    <button 
+        onMouseEnter={() => setActiveTooltip(id)}
+        onMouseLeave={() => setActiveTooltip(null)}
+        onClick={() => setActiveTooltip(activeTooltip === id ? null : id)}
+        className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+    >
+        i
+    </button>
+  );
+
   return (
     <main className="flex flex-col items-center w-full min-h-screen md:min-h-0 md:h-screen md:overflow-hidden bg-black text-white p-4 md:p-8 scrollbar-hide">
       <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8 md:h-full md:overflow-hidden scrollbar-hide">
@@ -518,19 +591,8 @@ export default function BlobTracker() {
                 <label className="flex flex-col gap-3 relative">
                     <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
-                        <button 
-                            onMouseEnter={() => setActiveTooltip('threshold')}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onClick={() => setActiveTooltip(activeTooltip === 'threshold' ? null : 'threshold')}
-                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                        >
-                            i
-                        </button>
-                        {activeTooltip === 'threshold' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.threshold[lang]}
-                            </div>
-                        )}
+                        {renderInfoButton('threshold')}
+                        {renderTooltip('threshold', t.threshold[lang])}
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
@@ -549,19 +611,8 @@ export default function BlobTracker() {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
-                            <button 
-                                onMouseEnter={() => setActiveTooltip('maxBlobs')}
-                                onMouseLeave={() => setActiveTooltip(null)}
-                                onClick={() => setActiveTooltip(activeTooltip === 'maxBlobs' ? null : 'maxBlobs')}
-                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                            >
-                                i
-                            </button>
-                            {activeTooltip === 'maxBlobs' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.maxBlobs[lang]}
-                            </div>
-                            )}
+                            {renderInfoButton('maxBlobs')}
+                            {renderTooltip('maxBlobs', t.maxBlobs[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{maxBlobs}</span>
                     </div>
@@ -578,19 +629,8 @@ export default function BlobTracker() {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
-                            <button 
-                                onMouseEnter={() => setActiveTooltip('blobSize')}
-                                onMouseLeave={() => setActiveTooltip(null)}
-                                onClick={() => setActiveTooltip(activeTooltip === 'blobSize' ? null : 'blobSize')}
-                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                            >
-                                i
-                            </button>
-                            {activeTooltip === 'blobSize' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.blobSize[lang]}
-                            </div>
-                            )}
+                            {renderInfoButton('blobSize')}
+                            {renderTooltip('blobSize', t.blobSize[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{blobSize}px</span>
                     </div>
@@ -607,19 +647,8 @@ export default function BlobTracker() {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
-                            <button 
-                                onMouseEnter={() => setActiveTooltip('randomness')}
-                                onMouseLeave={() => setActiveTooltip(null)}
-                                onClick={() => setActiveTooltip(activeTooltip === 'randomness' ? null : 'randomness')}
-                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                            >
-                                i
-                            </button>
-                            {activeTooltip === 'randomness' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.randomness[lang]}
-                            </div>
-                            )}
+                            {renderInfoButton('randomness')}
+                            {renderTooltip('randomness', t.randomness[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{sizeRandomness}%</span>
                     </div>
@@ -634,19 +663,8 @@ export default function BlobTracker() {
                 </label>
                 <div className="flex items-center gap-1.5 relative">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
-                    <button 
-                        onMouseEnter={() => setActiveTooltip('fillMode')}
-                        onMouseLeave={() => setActiveTooltip(null)}
-                        onClick={() => setActiveTooltip(activeTooltip === 'fillMode' ? null : 'fillMode')}
-                        className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                    >
-                        i
-                    </button>
-                    {activeTooltip === 'fillMode' && (
-                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                            {t.fillMode[lang]}
-                        </div>
-                    )}
+                    {renderInfoButton('fillMode')}
+                    {renderTooltip('fillMode', t.fillMode[lang])}
                 </div>
              <div className="grid grid-cols-2 gap-2">
                <button 
@@ -678,19 +696,8 @@ export default function BlobTracker() {
                  <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
-                        <button 
-                            onMouseEnter={() => setActiveTooltip('fillRatio')}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onClick={() => setActiveTooltip(activeTooltip === 'fillRatio' ? null : 'fillRatio')}
-                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                        >
-                            i
-                        </button>
-                        {activeTooltip === 'fillRatio' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.fillRatio[lang]}
-                            </div>
-                        )}
+                        {renderInfoButton('fillRatio')}
+                        {renderTooltip('fillRatio', t.fillRatio[lang])}
                     </div>
                     <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{fillRatio}%</span>
                  </div>
@@ -712,19 +719,8 @@ export default function BlobTracker() {
                 <div className="flex items-center justify-between relative">
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
-                      <button 
-                         onMouseEnter={() => setActiveTooltip('showLabels')}
-                         onMouseLeave={() => setActiveTooltip(null)}
-                         onClick={() => setActiveTooltip(activeTooltip === 'showLabels' ? null : 'showLabels')}
-                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                      >
-                         i
-                      </button>
-                      {activeTooltip === 'showLabels' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             {t.showLabels[lang]}
-                         </div>
-                      )}
+                      {renderInfoButton('showLabels')}
+                      {renderTooltip('showLabels', t.showLabels[lang])}
                    </div>
                    <button 
                       onClick={() => setShowNumbers(!showNumbers)}
@@ -734,22 +730,11 @@ export default function BlobTracker() {
                    </button>
                 </div>
 
-                <div className="flex items-center justify-between relative">
+                <div className="flex items-center justify-between relative mb-1">
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
-                      <button 
-                         onMouseEnter={() => setActiveTooltip('labelType')}
-                         onMouseLeave={() => setActiveTooltip(null)}
-                         onClick={() => setActiveTooltip(activeTooltip === 'labelType' ? null : 'labelType')}
-                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                      >
-                         i
-                      </button>
-                      {activeTooltip === 'labelType' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             {t.labelType[lang]}
-                         </div>
-                      )}
+                      {renderInfoButton('labelType')}
+                      {renderTooltip('labelType', t.labelType[lang])}
                    </div>
                    <div className="flex border border-white">
                      <button 
@@ -771,19 +756,8 @@ export default function BlobTracker() {
                   <div className="flex justify-between items-center">
                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
-                        <button 
-                            onMouseEnter={() => setActiveTooltip('labelSize')}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onClick={() => setActiveTooltip(activeTooltip === 'labelSize' ? null : 'labelSize')}
-                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                        >
-                            i
-                        </button>
-                        {activeTooltip === 'labelSize' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.labelSize[lang]}
-                            </div>
-                        )}
+                        {renderInfoButton('labelSize')}
+                        {renderTooltip('labelSize', t.labelSize[lang])}
                      </div>
                      <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{numberSize}px</span>
                   </div>
@@ -805,19 +779,8 @@ export default function BlobTracker() {
                 <div className="flex items-center justify-between relative">
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
-                      <button 
-                         onMouseEnter={() => setActiveTooltip('connectLines')}
-                         onMouseLeave={() => setActiveTooltip(null)}
-                         onClick={() => setActiveTooltip(activeTooltip === 'connectLines' ? null : 'connectLines')}
-                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                      >
-                         i
-                      </button>
-                      {activeTooltip === 'connectLines' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             {t.connectLines[lang]}
-                         </div>
-                      )}
+                      {renderInfoButton('connectLines')}
+                      {renderTooltip('connectLines', t.connectLines[lang])}
                    </div>
                    <button 
                       onClick={() => setShowLines(!showLines)}
@@ -827,22 +790,11 @@ export default function BlobTracker() {
                    </button>
                 </div>
 
-                 <div className="flex items-center justify-between relative">
+                 <div className="flex items-center justify-between relative mb-1">
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Line Pattern</span>
-                      <button 
-                         onMouseEnter={() => setActiveTooltip('linePattern')}
-                         onMouseLeave={() => setActiveTooltip(null)}
-                         onClick={() => setActiveTooltip(activeTooltip === 'linePattern' ? null : 'linePattern')}
-                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                      >
-                         i
-                      </button>
-                      {activeTooltip === 'linePattern' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             {t.linePattern[lang]}
-                         </div>
-                      )}
+                      {renderInfoButton('linePattern')}
+                      {renderTooltip('linePattern', t.linePattern[lang])}
                    </div>
                    <div className="flex border border-white">
                      <button 
@@ -864,19 +816,8 @@ export default function BlobTracker() {
                   <div className="flex justify-between items-center">
                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
-                        <button 
-                            onMouseEnter={() => setActiveTooltip('smoothness')}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onClick={() => setActiveTooltip(activeTooltip === 'smoothness' ? null : 'smoothness')}
-                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                        >
-                            i
-                        </button>
-                        {activeTooltip === 'smoothness' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                {t.smoothness[lang]}
-                            </div>
-                        )}
+                        {renderInfoButton('smoothness')}
+                        {renderTooltip('smoothness', t.smoothness[lang])}
                      </div>
                      <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{lineSmoothness}%</span>
                   </div>
@@ -898,19 +839,8 @@ export default function BlobTracker() {
              <div className="bg-black p-4 border border-white flex flex-col gap-3">
                  <div className="flex items-center gap-1.5 relative">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
-                    <button 
-                        onMouseEnter={() => setActiveTooltip('colorControl')}
-                        onMouseLeave={() => setActiveTooltip(null)}
-                        onClick={() => setActiveTooltip(activeTooltip === 'colorControl' ? null : 'colorControl')}
-                        className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
-                    >
-                        i
-                    </button>
-                    {activeTooltip === 'colorControl' && (
-                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                            {t.colorControl[lang]}
-                        </div>
-                    )}
+                    {renderInfoButton('colorControl')}
+                    {renderTooltip('colorControl', t.colorControl[lang])}
                  </div>
                 <div className="flex flex-col gap-3">
                    <div className="flex items-center gap-3">
