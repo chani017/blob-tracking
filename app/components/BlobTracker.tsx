@@ -431,6 +431,20 @@ export default function BlobTracker() {
              </div>
           </article>
 
+        <article className="bg-black p-4 border border-white">
+             <label className="flex flex-col gap-2">
+               <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size: {numberSize}px</span>
+              <input 
+                  type="range" 
+                  min="10" 
+                  max="75" 
+                  value={numberSize} 
+                  onChange={(e) => setNumberSize(Number(e.target.value))}
+                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                />
+            </label>
+          </article>
+
           <article className="bg-black p-4 border border-white flex flex-col gap-3">
              <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
              <div className="grid grid-cols-2 gap-2">
@@ -560,20 +574,6 @@ export default function BlobTracker() {
                   max="300" 
                   value={sizeRandomness} 
                   onChange={(e) => setSizeRandomness(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size: {numberSize}px</span>
-              <input 
-                  type="range" 
-                  min="10" 
-                  max="75" 
-                  value={numberSize} 
-                  onChange={(e) => setNumberSize(Number(e.target.value))}
                   className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                 />
             </label>
