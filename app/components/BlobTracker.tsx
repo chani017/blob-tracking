@@ -22,7 +22,7 @@ export default function BlobTracker() {
   const [labelType, setLabelType] = useState<'size' | 'id'>('size');
   const [fillMode, setFillMode] = useState<'none' | 'solid' | 'lighten' | 'multiply' | 'difference'>('none');
   const [fillRatio, setFillRatio] = useState(100);
-  const [colorRGB, setColorRGB] = useState({ r: 239, g: 239, b: 239 });
+  const [colorRGB, setColorRGB] = useState({ r: 255, g: 255, b: 255 });
   const [isRecording, setIsRecording] = useState(false);
   const [isFloating, setIsFloating] = useState(false);
 
