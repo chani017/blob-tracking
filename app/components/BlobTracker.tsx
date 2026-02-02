@@ -500,17 +500,17 @@ export default function BlobTracker() {
                 <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
                 <div className="flex items-center gap-1.5">
                     <button 
-                        onClick={() => setLang('en')}
-                        className={`text-xs font-medium transition-colors ${lang === 'en' ? 'text-white' : 'text-neutral-500'}`}
-                    >
-                        EN
-                    </button>
-                    <span className="text-[10px] text-neutral-800">/</span>
-                    <button 
                         onClick={() => setLang('kr')}
                         className={`text-xs font-medium transition-colors ${lang === 'kr' ? 'text-white' : 'text-neutral-500'}`}
                     >
                         KR
+                    </button>
+                    <span className="text-[10px] text-neutral-800">/</span>
+                    <button 
+                        onClick={() => setLang('en')}
+                        className={`text-xs font-medium transition-colors ${lang === 'en' ? 'text-white' : 'text-neutral-500'}`}
+                    >
+                        EN
                     </button>
                 </div>
             </div>
