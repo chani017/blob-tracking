@@ -23,6 +23,8 @@ export default function BlobTracker() {
   const [fillMode, setFillMode] = useState<'none' | 'solid' | 'lighten' | 'multiply' | 'difference'>('none');
   const [fillRatio, setFillRatio] = useState(100);
   const [colorRGB, setColorRGB] = useState({ r: 255, g: 255, b: 255 });
+  const [lineSmoothness, setLineSmoothness] = useState(0);
+  const [lineDashStyle, setLineDashStyle] = useState<'solid' | 'dashed'>('solid');
   const [isRecording, setIsRecording] = useState(false);
   const [isFloating, setIsFloating] = useState(false);
 
@@ -42,12 +44,14 @@ export default function BlobTracker() {
     fillMode,
     fillRatio,
     colorRGB,
+    lineSmoothness,
+    lineDashStyle,
     fontLoaded
   });
 
   useEffect(() => {
-    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, fontLoaded };
-  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, fontLoaded]);
+    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle, fontLoaded };
+  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle, fontLoaded]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -228,14 +232,43 @@ export default function BlobTracker() {
 
       if (currentShowLines && activeBlobs.length > 1) {
         ctx.beginPath();
-        activeBlobs.forEach((blob, i) => {
-            if (i === 0) ctx.moveTo(blob.x, blob.y);
-            else ctx.lineTo(blob.x, blob.y);
-        });
-        ctx.lineTo(activeBlobs[0].x, activeBlobs[0].y);
         ctx.strokeStyle = colorStr;
         ctx.lineWidth = 2 * scaleFactor;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "butt";
+
+        if (stateRef.current.lineDashStyle === 'dashed') {
+          ctx.setLineDash([5 * scaleFactor, 10 * scaleFactor]);
+        } else {
+          ctx.setLineDash([]);
+        }
+
+        if (stateRef.current.lineSmoothness > 0) {
+          const smoothness = stateRef.current.lineSmoothness / 100;
+          ctx.moveTo(activeBlobs[0].x, activeBlobs[0].y);
+          
+          for (let i = 0; i < activeBlobs.length; i++) {
+            const p0 = activeBlobs[(i - 1 + activeBlobs.length) % activeBlobs.length];
+            const p1 = activeBlobs[i];
+            const p2 = activeBlobs[(i + 1) % activeBlobs.length];
+            const p3 = activeBlobs[(i + 2) % activeBlobs.length];
+
+            const cp1x = p1.x + (p2.x - p0.x) / 6 * smoothness;
+            const cp1y = p1.y + (p2.y - p0.y) / 6 * smoothness;
+            const cp2x = p2.x - (p3.x - p1.x) / 6 * smoothness;
+            const cp2y = p2.y - (p3.y - p1.y) / 6 * smoothness;
+
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+          }
+        } else {
+          activeBlobs.forEach((blob, i) => {
+            if (i === 0) ctx.moveTo(blob.x, blob.y);
+            else ctx.lineTo(blob.x, blob.y);
+          });
+          ctx.lineTo(activeBlobs[0].x, activeBlobs[0].y);
+        }
         ctx.stroke();
+        ctx.setLineDash([]);
       }
 
       activeBlobs.forEach(blob => {
@@ -281,7 +314,7 @@ export default function BlobTracker() {
             ctx.textBaseline = "top";
             const padding = 6 * scaleFactor;
             
-            let label = blob.id.toString();
+            let label = `ID:${blob.id}`;
             if (stateRef.current.labelType === 'size') {
                 const relW = width / canvas.width;
                 const relH = height / canvas.height;
@@ -327,10 +360,9 @@ export default function BlobTracker() {
   }, [videoSrc]);
 
   return (
-    <main className="flex flex-col items-center w-full min-h-screen bg-black text-white p-4 md:p-8">
-      <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8">
-        
-        <article className="flex-grow flex flex-col gap-6 md:w-2/3">
+    <main className="flex flex-col items-center w-full min-h-screen md:min-h-0 md:h-screen md:overflow-hidden bg-black text-white p-4 md:p-8 scrollbar-hide">
+      <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8 md:h-full md:overflow-hidden scrollbar-hide">
+        <article className="flex-grow flex flex-col gap-6 md:w-2/3 md:h-full md:overflow-y-auto scrollbar-hide">
           <div className="flex justify-between items-center p-4 bg-black border border-white">
             <h1 className="text-white tracking-tight font-medium text-xs ring-offset-2">
               Blob Tracking
@@ -405,121 +437,68 @@ export default function BlobTracker() {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px]">
-          <article className="bg-black p-4 border border-white flex items-center justify-between">
-             <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
-             <button 
-                onClick={() => setShowNumbers(!showNumbers)}
-                className={`w-12 h-6 transition-colors relative border border-white ${showNumbers ? 'bg-white' : 'bg-black'}`}
-             >
-                <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showNumbers ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
-             </button>
-          </article>
-
-          <article className="bg-black p-4 border border-white flex items-center justify-between">
-             <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
-             <button 
-                onClick={() => setShowLines(!showLines)}
-                className={`w-12 h-6 transition-colors relative border border-white ${showLines ? 'bg-white' : 'bg-black'}`}
-             >
-                <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
-             </button>
-          </article>
-
-          <article className="bg-black p-4 border border-white flex items-center justify-between">
-             <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
-             <div className="flex border border-white">
-               <button 
-                onClick={() => setLabelType('id')}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'bg-black text-white'}`}
-               >
-                 ID
-               </button>
-               <button 
-                onClick={() => setLabelType('size')}
-                className={`px-3 py-1 text-xs font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'bg-black text-white'}`}
-               >
-                 Size
-               </button>
-             </div>
-          </article>
-
-        <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size: {numberSize}px</span>
-              <input 
-                  type="range" 
-                  min="10" 
-                  max="75" 
-                  value={numberSize} 
-                  onChange={(e) => setNumberSize(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-            <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
-              <div className="flex items-center gap-3">
-                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
-                <input 
-                  type="range" 
-                  min="30" 
-                  max="250" 
-                  value={280 - threshold} 
-                  onChange={(e) => setThreshold(280 - Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
-                />
-                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
-              </div>
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs: {maxBlobs}</span>
-              <input 
-                  type="range" 
-                  min="1" 
-                  max="20" 
-                  value={maxBlobs} 
-                  onChange={(e) => setMaxBlobs(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size: {blobSize}px</span>
-              <input 
-                  type="range" 
-                  min="10" 
-                  max="150" 
-                  value={blobSize} 
-                  onChange={(e) => setBlobSize(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white">
-             <label className="flex flex-col gap-2">
-               <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness: {sizeRandomness}%</span>
-              <input 
-                  type="range" 
-                  min="0" 
-                  max="300" 
-                  value={sizeRandomness} 
-                  onChange={(e) => setSizeRandomness(Number(e.target.value))}
-                  className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                />
-            </label>
-          </article>
-
-          <article className="bg-black p-4 border border-white flex flex-col gap-3">
-             <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
+        <article className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px] md:h-full md:overflow-y-auto scrollbar-hide">
+            <article className="flex flex-col gap-y-3">
+            <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
+            <div className="bg-black p-4 border border-white flex flex-col gap-y-3">
+                <label className="flex flex-col gap-2">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
+                    <div className="flex items-center gap-3">
+                        <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
+                        <input 
+                        type="range" 
+                        min="30" 
+                        max="250" 
+                        value={280 - threshold} 
+                        onChange={(e) => setThreshold(280 - Number(e.target.value))}
+                        className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
+                        />
+                        <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
+                    </div>
+                </label>
+                <label className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
+                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{maxBlobs}</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        min="1" 
+                        max="20" 
+                        value={maxBlobs} 
+                        onChange={(e) => setMaxBlobs(Number(e.target.value))}
+                        className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                    />
+                </label>
+                <label className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
+                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{blobSize}px</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        min="10" 
+                        max="150" 
+                        value={blobSize} 
+                        onChange={(e) => setBlobSize(Number(e.target.value))}
+                        className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                    />
+                </label>
+                <label className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
+                        <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{sizeRandomness}%</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="300" 
+                        value={sizeRandomness} 
+                        onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                        className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                    />
+                </label>
+                <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
              <div className="grid grid-cols-2 gap-2">
                <button 
                 onClick={() => setFillMode('none')}
@@ -547,7 +526,10 @@ export default function BlobTracker() {
                </button>
              </div>
              <label className="flex flex-col gap-2 mt-2">
-                <span className="text-[0.625rem] text-white font-medium uppercase tracking-tight">Fill Ratio: {fillRatio}%</span>
+                <div className="flex justify-between items-center">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
+                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{fillRatio}%</span>
+                </div>
                 <input 
                     type="range" 
                     min="0" 
@@ -557,37 +539,138 @@ export default function BlobTracker() {
                     className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                   />
               </label>
+            </div>
+            </article>
+
+          <article className="flex flex-col gap-y-3">
+             <p className="text-xs text-white font-medium uppercase tracking-tight">Labels</p>
+             <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
+               <div className="flex items-center justify-between">
+                  <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
+                  <button 
+                     onClick={() => setShowNumbers(!showNumbers)}
+                     className={`w-12 h-6 transition-colors relative border border-white ${showNumbers ? 'bg-white' : 'bg-black'}`}
+                  >
+                     <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showNumbers ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
+                  </button>
+               </div>
+
+               <div className="flex items-center justify-between">
+                  <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
+                  <div className="flex border border-white">
+                    <button 
+                     onClick={() => setLabelType('id')}
+                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                    >
+                      ID
+                    </button>
+                    <button 
+                     onClick={() => setLabelType('size')}
+                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                    >
+                      Size
+                    </button>
+                  </div>
+               </div>
+
+               <label className="flex flex-col gap-2">
+                 <div className="flex justify-between items-center">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
+                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{numberSize}px</span>
+                 </div>
+                 <input 
+                    type="range" 
+                    min="10" 
+                    max="75" 
+                    value={numberSize} 
+                    onChange={(e) => setNumberSize(Number(e.target.value))}
+                    className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                  />
+               </label>
+             </div>
           </article>
 
-          <article className="bg-black p-4 border border-white flex flex-col gap-3">
-             <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
-             <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-[0.625rem] text-red-500 font-bold w-4">R</span>
-                  <input 
-                    type="range" min="0" max="255" value={colorRGB.r} 
-                    onChange={(e) => setColorRGB(prev => ({ ...prev, r: Number(e.target.value) }))}
-                    className="w-full accent-red-500 h-px bg-white/20 appearance-none cursor-pointer" 
+          <article className="flex flex-col gap-y-3">
+             <p className="text-xs text-white font-medium uppercase tracking-tight">Lines</p>
+             <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
+               <div className="flex items-center justify-between">
+                  <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
+                  <button 
+                     onClick={() => setShowLines(!showLines)}
+                     className={`w-12 h-6 transition-colors relative border border-white ${showLines ? 'bg-white' : 'bg-black'}`}
+                  >
+                     <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
+                  </button>
+               </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-white font-medium uppercase tracking-tight">Line Pattern</span>
+                  <div className="flex border border-white">
+                    <button 
+                     onClick={() => setLineDashStyle('solid')}
+                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'solid' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                    >
+                      Solid
+                    </button>
+                    <button 
+                     onClick={() => setLineDashStyle('dashed')}
+                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'dashed' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                    >
+                      Dashed
+                    </button>
+                  </div>
+               </div>
+
+               <label className="flex flex-col gap-2">
+                 <div className="flex justify-between items-center">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
+                    <span className="text-xs text-neutral-500 font-medium uppercase tracking-tight">{lineSmoothness}%</span>
+                 </div>
+                 <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value={lineSmoothness} 
+                    onChange={(e) => setLineSmoothness(Number(e.target.value))}
+                    className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                   />
-                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.r}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-[0.625rem] text-green-500 font-bold w-4">G</span>
-                  <input 
-                    type="range" min="0" max="255" value={colorRGB.g} 
-                    onChange={(e) => setColorRGB(prev => ({ ...prev, g: Number(e.target.value) }))}
-                    className="w-full accent-green-500 h-px bg-white/20 appearance-none cursor-pointer" 
-                  />
-                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.g}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-[0.625rem] text-blue-500 font-bold w-4">B</span>
-                  <input 
-                    type="range" min="0" max="255" value={colorRGB.b} 
-                    onChange={(e) => setColorRGB(prev => ({ ...prev, b: Number(e.target.value) }))}
-                    className="w-full accent-blue-500 h-px bg-white/20 appearance-none cursor-pointer" 
-                  />
-                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
+               </label>
+
+             </div>
+          </article>
+
+          <article className="flex flex-col gap-y-3">
+             <p className="text-xs text-white font-medium uppercase tracking-tight">Global Styles</p>
+             <div className="bg-black p-4 border border-white flex flex-col gap-3">
+                <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
+                <div className="flex flex-col gap-3">
+                   <div className="flex items-center gap-3">
+                     <span className="text-[0.625rem] text-red-500 font-bold w-4">R</span>
+                     <input 
+                       type="range" min="0" max="255" value={colorRGB.r} 
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, r: Number(e.target.value) }))}
+                       className="w-full accent-red-500 h-px bg-white/20 appearance-none cursor-pointer" 
+                     />
+                     <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.r}</span>
+                   </div>
+                   <div className="flex items-center gap-3">
+                     <span className="text-[0.625rem] text-green-500 font-bold w-4">G</span>
+                     <input 
+                       type="range" min="0" max="255" value={colorRGB.g} 
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, g: Number(e.target.value) }))}
+                       className="w-full accent-green-500 h-px bg-white/20 appearance-none cursor-pointer" 
+                     />
+                     <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.g}</span>
+                   </div>
+                   <div className="flex items-center gap-3">
+                     <span className="text-[0.625rem] text-blue-500 font-bold w-4">B</span>
+                     <input 
+                       type="range" min="0" max="255" value={colorRGB.b} 
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, b: Number(e.target.value) }))}
+                       className="w-full accent-blue-500 h-px bg-white/20 appearance-none cursor-pointer" 
+                     />
+                     <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
+                   </div>
                 </div>
              </div>
           </article>
