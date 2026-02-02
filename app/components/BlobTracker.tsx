@@ -366,7 +366,15 @@ export default function BlobTracker() {
             className="relative w-full bg-black overflow-hidden shadow-2xl border border-white transition-[aspect-ratio] duration-500"
             style={{ aspectRatio: aspectRatio ? `${aspectRatio}` : '16 / 9' }}
           >
-            <div className={`${isFloating ? 'fixed top-0 left-2 z-50 w-[45%] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white transform pointer-events-none' : 'relative w-full h-full'}`}>
+            <div className={`${
+              isFloating 
+                ? `fixed z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white transform pointer-events-none ${
+                    aspectRatio && aspectRatio > 1 
+                      ? 'top-0 left-[4%] w-[92%]' 
+                      : 'top-0 left-4 w-[45%]'
+                  }` 
+                : 'relative w-full h-full'
+            }`}>
               {!videoSrc && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10 text-xs">
                 <p className="font-normal">Upload a video to start tracking</p>
