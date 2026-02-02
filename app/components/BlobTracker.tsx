@@ -20,7 +20,7 @@ const t = {
   },
   blobSize: {
       en: "Adjusts the base size of the rectangles representing detected blobs.",
-      kr: "감지된 객체를 표시할 사각형의 기본 크기를 조절합니다."
+      kr: "감지된 객체의 크기를 조절합니다."
   },
   randomness: {
       en: "Adds randomness to sizes. Higher values increase size variation between blobs.",
