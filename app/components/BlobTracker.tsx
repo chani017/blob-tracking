@@ -27,6 +27,7 @@ export default function BlobTracker() {
   const [lineDashStyle, setLineDashStyle] = useState<'solid' | 'dashed'>('solid');
   const [isRecording, setIsRecording] = useState(false);
   const [isFloating, setIsFloating] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   const [fontLoaded, setFontLoaded] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -441,8 +442,23 @@ export default function BlobTracker() {
             <article className="flex flex-col gap-y-3">
             <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
             <div className="bg-black p-4 border border-white flex flex-col gap-y-3">
-                <label className="flex flex-col gap-2">
-                    <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
+                <label className="flex flex-col gap-2 relative">
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
+                        <button 
+                            onMouseEnter={() => setActiveTooltip('threshold')}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onClick={() => setActiveTooltip(activeTooltip === 'threshold' ? null : 'threshold')}
+                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                        >
+                            i
+                        </button>
+                        {activeTooltip === 'threshold' && (
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                객체 감지 민감도를 조절합니다. 값이 높을수록 가장 밝은 부분만 감지하고, 값이 낮을수록 더 넓은 영역을 감지합니다.
+                            </div>
+                        )}
+                    </div>
                     <div className="flex items-center gap-3">
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
                         <input 
@@ -456,9 +472,24 @@ export default function BlobTracker() {
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
                     </div>
                 </label>
-                <label className="flex flex-col gap-2">
+                <label className="flex flex-col gap-2 relative">
                     <div className="flex justify-between items-center">
-                        <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
+                            <button 
+                                onMouseEnter={() => setActiveTooltip('maxBlobs')}
+                                onMouseLeave={() => setActiveTooltip(null)}
+                                onClick={() => setActiveTooltip(activeTooltip === 'maxBlobs' ? null : 'maxBlobs')}
+                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                            >
+                                i
+                            </button>
+                            {activeTooltip === 'maxBlobs' && (
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                    화면에 표시할 최대 객체 수를 설정합니다.
+                                </div>
+                            )}
+                        </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{maxBlobs}</span>
                     </div>
                     <input 
@@ -470,9 +501,24 @@ export default function BlobTracker() {
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
-                <label className="flex flex-col gap-2">
+                <label className="flex flex-col gap-2 relative">
                     <div className="flex justify-between items-center">
-                        <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
+                            <button 
+                                onMouseEnter={() => setActiveTooltip('blobSize')}
+                                onMouseLeave={() => setActiveTooltip(null)}
+                                onClick={() => setActiveTooltip(activeTooltip === 'blobSize' ? null : 'blobSize')}
+                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                            >
+                                i
+                            </button>
+                            {activeTooltip === 'blobSize' && (
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                    감지된 객체를 표시할 사각형의 기본 크기를 조절합니다.
+                                </div>
+                            )}
+                        </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{blobSize}px</span>
                     </div>
                     <input 
@@ -484,9 +530,24 @@ export default function BlobTracker() {
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
-                <label className="flex flex-col gap-2">
+                <label className="flex flex-col gap-2 relative">
                     <div className="flex justify-between items-center">
-                        <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
+                            <button 
+                                onMouseEnter={() => setActiveTooltip('randomness')}
+                                onMouseLeave={() => setActiveTooltip(null)}
+                                onClick={() => setActiveTooltip(activeTooltip === 'randomness' ? null : 'randomness')}
+                                className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                            >
+                                i
+                            </button>
+                            {activeTooltip === 'randomness' && (
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                    각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다.
+                                </div>
+                            )}
+                        </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{sizeRandomness}%</span>
                     </div>
                     <input 
@@ -498,7 +559,22 @@ export default function BlobTracker() {
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
-                <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
+                <div className="flex items-center gap-1.5 relative">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
+                    <button 
+                        onMouseEnter={() => setActiveTooltip('fillMode')}
+                        onMouseLeave={() => setActiveTooltip(null)}
+                        onClick={() => setActiveTooltip(activeTooltip === 'fillMode' ? null : 'fillMode')}
+                        className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                    >
+                        i
+                    </button>
+                    {activeTooltip === 'fillMode' && (
+                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)
+                        </div>
+                    )}
+                </div>
              <div className="grid grid-cols-2 gap-2">
                <button 
                 onClick={() => setFillMode('none')}
@@ -525,12 +601,27 @@ export default function BlobTracker() {
                  Invert
                </button>
              </div>
-             <label className="flex flex-col gap-2 mt-2">
-                <div className="flex justify-between items-center">
-                    <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
+              <label className="flex flex-col gap-2 mt-2 relative">
+                 <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
+                        <button 
+                            onMouseEnter={() => setActiveTooltip('fillRatio')}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onClick={() => setActiveTooltip(activeTooltip === 'fillRatio' ? null : 'fillRatio')}
+                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                        >
+                            i
+                        </button>
+                        {activeTooltip === 'fillRatio' && (
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다.
+                            </div>
+                        )}
+                    </div>
                     <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{fillRatio}%</span>
-                </div>
-                <input 
+                 </div>
+                 <input 
                     type="range" 
                     min="0" 
                     max="100" 
@@ -545,96 +636,186 @@ export default function BlobTracker() {
           <article className="flex flex-col gap-y-3">
              <p className="text-xs text-white font-medium uppercase tracking-tight">Labels</p>
              <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
-               <div className="flex items-center justify-between">
-                  <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
-                  <button 
-                     onClick={() => setShowNumbers(!showNumbers)}
-                     className={`w-12 h-6 transition-colors relative border border-white ${showNumbers ? 'bg-white' : 'bg-black'}`}
-                  >
-                     <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showNumbers ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
-                  </button>
-               </div>
+                <div className="flex items-center justify-between relative">
+                   <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
+                      <button 
+                         onMouseEnter={() => setActiveTooltip('showLabels')}
+                         onMouseLeave={() => setActiveTooltip(null)}
+                         onClick={() => setActiveTooltip(activeTooltip === 'showLabels' ? null : 'showLabels')}
+                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                      >
+                         i
+                      </button>
+                      {activeTooltip === 'showLabels' && (
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                             각 객체에 라벨을 표시할지 여부를 결정합니다.
+                         </div>
+                      )}
+                   </div>
+                   <button 
+                      onClick={() => setShowNumbers(!showNumbers)}
+                      className={`w-12 h-6 transition-colors relative border border-white ${showNumbers ? 'bg-white' : 'bg-black'}`}
+                   >
+                      <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showNumbers ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
+                   </button>
+                </div>
 
-               <div className="flex items-center justify-between">
-                  <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
-                  <div className="flex border border-white">
-                    <button 
-                     onClick={() => setLabelType('id')}
-                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'bg-black text-white'}`}
-                    >
-                      ID
-                    </button>
-                    <button 
-                     onClick={() => setLabelType('size')}
-                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'bg-black text-white'}`}
-                    >
-                      Size
-                    </button>
+                <div className="flex items-center justify-between relative">
+                   <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
+                      <button 
+                         onMouseEnter={() => setActiveTooltip('labelType')}
+                         onMouseLeave={() => setActiveTooltip(null)}
+                         onClick={() => setActiveTooltip(activeTooltip === 'labelType' ? null : 'labelType')}
+                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                      >
+                         i
+                      </button>
+                      {activeTooltip === 'labelType' && (
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                             라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다.
+                         </div>
+                      )}
+                   </div>
+                   <div className="flex border border-white">
+                     <button 
+                      onClick={() => setLabelType('id')}
+                      className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'id' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                     >
+                       ID
+                     </button>
+                     <button 
+                      onClick={() => setLabelType('size')}
+                      className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${labelType === 'size' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                     >
+                       Size
+                     </button>
+                   </div>
+                </div>
+
+                <label className="flex flex-col gap-2 relative">
+                  <div className="flex justify-between items-center">
+                     <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
+                        <button 
+                            onMouseEnter={() => setActiveTooltip('labelSize')}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onClick={() => setActiveTooltip(activeTooltip === 'labelSize' ? null : 'labelSize')}
+                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                        >
+                            i
+                        </button>
+                        {activeTooltip === 'labelSize' && (
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                라벨 텍스트의 크기를 조절합니다.
+                            </div>
+                        )}
+                     </div>
+                     <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{numberSize}px</span>
                   </div>
-               </div>
-
-               <label className="flex flex-col gap-2">
-                 <div className="flex justify-between items-center">
-                    <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
-                    <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{numberSize}px</span>
-                 </div>
-                 <input 
-                    type="range" 
-                    min="10" 
-                    max="75" 
-                    value={numberSize} 
-                    onChange={(e) => setNumberSize(Number(e.target.value))}
-                    className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                  />
-               </label>
+                  <input 
+                     type="range" 
+                     min="10" 
+                     max="75" 
+                     value={numberSize} 
+                     onChange={(e) => setNumberSize(Number(e.target.value))}
+                     className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                   />
+                </label>
              </div>
           </article>
 
           <article className="flex flex-col gap-y-3">
              <p className="text-xs text-white font-medium uppercase tracking-tight">Lines</p>
              <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
-               <div className="flex items-center justify-between">
-                  <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
-                  <button 
-                     onClick={() => setShowLines(!showLines)}
-                     className={`w-12 h-6 transition-colors relative border border-white ${showLines ? 'bg-white' : 'bg-black'}`}
-                  >
-                     <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
-                  </button>
-               </div>
+                <div className="flex items-center justify-between relative">
+                   <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
+                      <button 
+                         onMouseEnter={() => setActiveTooltip('connectLines')}
+                         onMouseLeave={() => setActiveTooltip(null)}
+                         onClick={() => setActiveTooltip(activeTooltip === 'connectLines' ? null : 'connectLines')}
+                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                      >
+                         i
+                      </button>
+                      {activeTooltip === 'connectLines' && (
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                             감지된 객체들을 선으로 연결합니다.
+                         </div>
+                      )}
+                   </div>
+                   <button 
+                      onClick={() => setShowLines(!showLines)}
+                      className={`w-12 h-6 transition-colors relative border border-white ${showLines ? 'bg-white' : 'bg-black'}`}
+                   >
+                      <div className={`absolute top-0.5 w-4.5 h-4.5 transition-transform ${showLines ? 'left-6.5 bg-black' : 'left-0.5 bg-white'}`} />
+                   </button>
+                </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-white font-medium uppercase tracking-tight">Line Pattern</span>
-                  <div className="flex border border-white">
-                    <button 
-                     onClick={() => setLineDashStyle('solid')}
-                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'solid' ? 'bg-white text-black' : 'bg-black text-white'}`}
-                    >
-                      Solid
-                    </button>
-                    <button 
-                     onClick={() => setLineDashStyle('dashed')}
-                     className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'dashed' ? 'bg-white text-black' : 'bg-black text-white'}`}
-                    >
-                      Dashed
-                    </button>
+                 <div className="flex items-center justify-between relative">
+                   <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-white font-medium uppercase tracking-tight">Line Pattern</span>
+                      <button 
+                         onMouseEnter={() => setActiveTooltip('linePattern')}
+                         onMouseLeave={() => setActiveTooltip(null)}
+                         onClick={() => setActiveTooltip(activeTooltip === 'linePattern' ? null : 'linePattern')}
+                         className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                      >
+                         i
+                      </button>
+                      {activeTooltip === 'linePattern' && (
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                             연결선의 형태를 실선 또는 점선으로 설정합니다.
+                         </div>
+                      )}
+                   </div>
+                   <div className="flex border border-white">
+                     <button 
+                      onClick={() => setLineDashStyle('solid')}
+                      className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'solid' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                     >
+                       Solid
+                     </button>
+                     <button 
+                      onClick={() => setLineDashStyle('dashed')}
+                      className={`px-3 py-1 text-[0.625rem] font-medium uppercase transition-colors ${lineDashStyle === 'dashed' ? 'bg-white text-black' : 'bg-black text-white'}`}
+                     >
+                       Dashed
+                     </button>
+                   </div>
+                </div>
+
+                <label className="flex flex-col gap-2 relative">
+                  <div className="flex justify-between items-center">
+                     <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
+                        <button 
+                            onMouseEnter={() => setActiveTooltip('smoothness')}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onClick={() => setActiveTooltip(activeTooltip === 'smoothness' ? null : 'smoothness')}
+                            className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                        >
+                            i
+                        </button>
+                        {activeTooltip === 'smoothness' && (
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                연결선의 곡률 정도를 조절합니다.
+                            </div>
+                        )}
+                     </div>
+                     <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{lineSmoothness}%</span>
                   </div>
-               </div>
-
-               <label className="flex flex-col gap-2">
-                 <div className="flex justify-between items-center">
-                    <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
-                    <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{lineSmoothness}%</span>
-                 </div>
-                 <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={lineSmoothness} 
-                    onChange={(e) => setLineSmoothness(Number(e.target.value))}
-                    className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
-                  />
-               </label>
+                  <input 
+                     type="range" 
+                     min="0" 
+                     max="100" 
+                     value={lineSmoothness} 
+                     onChange={(e) => setLineSmoothness(Number(e.target.value))}
+                     className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
+                   />
+                </label>
 
              </div>
           </article>
@@ -642,7 +823,22 @@ export default function BlobTracker() {
           <article className="flex flex-col gap-y-3">
              <p className="text-xs text-white font-medium uppercase tracking-tight">Global Styles</p>
              <div className="bg-black p-4 border border-white flex flex-col gap-3">
-                <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
+                 <div className="flex items-center gap-1.5 relative">
+                    <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
+                    <button 
+                        onMouseEnter={() => setActiveTooltip('colorControl')}
+                        onMouseLeave={() => setActiveTooltip(null)}
+                        onClick={() => setActiveTooltip(activeTooltip === 'colorControl' ? null : 'colorControl')}
+                        className="w-3 h-3 rounded-full border border-neutral-600 flex items-center justify-center text-[0.425rem] text-neutral-400 cursor-help"
+                    >
+                        i
+                    </button>
+                    {activeTooltip === 'colorControl' && (
+                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다.
+                        </div>
+                    )}
+                 </div>
                 <div className="flex flex-col gap-3">
                    <div className="flex items-center gap-3">
                      <span className="text-[0.625rem] text-red-500 font-bold w-4">R</span>
