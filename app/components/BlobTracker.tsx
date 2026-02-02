@@ -332,7 +332,7 @@ export default function BlobTracker() {
         
         <article className="flex-grow flex flex-col gap-6 md:w-2/3">
           <div className="flex justify-between items-center p-4 bg-black border border-white">
-            <h1 className="text-white tracking-tight font-medium text-sm ring-offset-2">
+            <h1 className="text-white tracking-tight font-medium text-xs ring-offset-2">
               Blob Tracking
             </h1>
             <div className="flex gap-3">
