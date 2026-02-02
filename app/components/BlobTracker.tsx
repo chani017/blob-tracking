@@ -28,6 +28,62 @@ export default function BlobTracker() {
   const [isRecording, setIsRecording] = useState(false);
   const [isFloating, setIsFloating] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [lang, setLang] = useState<'en' | 'kr'>('kr');
+
+  const t = {
+    threshold: {
+        en: "Adjusts detection sensitivity. Higher values detect darker areas, lower values detect only the brightest.",
+        kr: "객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다."
+    },
+    maxBlobs: {
+        en: "Sets the maximum number of objects to display on screen.",
+        kr: "화면에 표시할 최대 객체 수를 설정합니다."
+    },
+    blobSize: {
+        en: "Adjusts the base size of the rectangles representing detected objects.",
+        kr: "감지된 객체를 표시할 사각형의 기본 크기를 조절합니다."
+    },
+    randomness: {
+        en: "Adds randomness to sizes. Higher values increase size variation between objects.",
+        kr: "각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다."
+    },
+    fillMode: {
+        en: "Selects fill mode: Empty, Solid, Lighten, or Invert (Difference).",
+        kr: "객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)"
+    },
+    fillRatio: {
+        en: "Determines the percentage of objects to apply the fill effect to.",
+        kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다."
+    },
+    showLabels: {
+        en: "Toggles the display of labels on each object.",
+        kr: "각 객체에 라벨을 표시할지 여부를 결정합니다."
+    },
+    labelType: {
+        en: "Display detection order (ID) or relative size on labels.",
+        kr: "라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다."
+    },
+    labelSize: {
+        en: "Adjusts the size of the label text.",
+        kr: "라벨 텍스트의 크기를 조절합니다."
+    },
+    connectLines: {
+        en: "Connects detected objects with lines to show paths or relationships.",
+        kr: "감지된 객체들을 선으로 연결합니다."
+    },
+    linePattern: {
+        en: "Sets the line pattern to solid or dashed.",
+        kr: "연결선의 형태를 실선 또는 점선으로 설정합니다."
+    },
+    smoothness: {
+        en: "Adjusts the curvature (smoothness) of the connection lines.",
+        kr: "연결선의 곡률 정도를 조절합니다."
+    },
+    colorControl: {
+        en: "Changes colors of squares and lines by adjusting R, G, B values.",
+        kr: "사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다."
+    }
+  };
 
   const [fontLoaded, setFontLoaded] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -440,7 +496,24 @@ export default function BlobTracker() {
 
         <article className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px] md:h-full md:overflow-y-auto scrollbar-hide">
             <article className="flex flex-col gap-y-3">
-            <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
+            <div className="flex justify-between items-center">
+                <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
+                <div className="flex items-center gap-1.5">
+                    <button 
+                        onClick={() => setLang('en')}
+                        className={`text-xs font-medium transition-colors ${lang === 'en' ? 'text-white' : 'text-neutral-500'}`}
+                    >
+                        EN
+                    </button>
+                    <span className="text-[10px] text-neutral-800">/</span>
+                    <button 
+                        onClick={() => setLang('kr')}
+                        className={`text-xs font-medium transition-colors ${lang === 'kr' ? 'text-white' : 'text-neutral-500'}`}
+                    >
+                        KR
+                    </button>
+                </div>
+            </div>
             <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
                 <label className="flex flex-col gap-3 relative">
                     <div className="flex items-center gap-1.5">
@@ -455,7 +528,7 @@ export default function BlobTracker() {
                         </button>
                         {activeTooltip === 'threshold' && (
                             <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다.
+                                {t.threshold[lang]}
                             </div>
                         )}
                     </div>
@@ -485,9 +558,9 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'maxBlobs' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                    화면에 표시할 최대 객체 수를 설정합니다.
-                                </div>
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
+                                {t.maxBlobs[lang]}
+                            </div>
                             )}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{maxBlobs}</span>
@@ -514,9 +587,9 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'blobSize' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                    감지된 객체를 표시할 사각형의 기본 크기를 조절합니다.
-                                </div>
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
+                                {t.blobSize[lang]}
+                            </div>
                             )}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{blobSize}px</span>
@@ -543,9 +616,9 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'randomness' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                    각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다.
-                                </div>
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
+                                {t.randomness[lang]}
+                            </div>
                             )}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{sizeRandomness}%</span>
@@ -571,7 +644,7 @@ export default function BlobTracker() {
                     </button>
                     {activeTooltip === 'fillMode' && (
                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                            객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)
+                            {t.fillMode[lang]}
                         </div>
                     )}
                 </div>
@@ -615,7 +688,7 @@ export default function BlobTracker() {
                         </button>
                         {activeTooltip === 'fillRatio' && (
                             <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다.
+                                {t.fillRatio[lang]}
                             </div>
                         )}
                     </div>
@@ -649,7 +722,7 @@ export default function BlobTracker() {
                       </button>
                       {activeTooltip === 'showLabels' && (
                          <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             각 객체에 라벨을 표시할지 여부를 결정합니다.
+                             {t.showLabels[lang]}
                          </div>
                       )}
                    </div>
@@ -674,7 +747,7 @@ export default function BlobTracker() {
                       </button>
                       {activeTooltip === 'labelType' && (
                          <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다.
+                             {t.labelType[lang]}
                          </div>
                       )}
                    </div>
@@ -708,7 +781,7 @@ export default function BlobTracker() {
                         </button>
                         {activeTooltip === 'labelSize' && (
                             <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                라벨 텍스트의 크기를 조절합니다.
+                                {t.labelSize[lang]}
                             </div>
                         )}
                      </div>
@@ -742,7 +815,7 @@ export default function BlobTracker() {
                       </button>
                       {activeTooltip === 'connectLines' && (
                          <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             감지된 객체들을 선으로 연결합니다.
+                             {t.connectLines[lang]}
                          </div>
                       )}
                    </div>
@@ -767,7 +840,7 @@ export default function BlobTracker() {
                       </button>
                       {activeTooltip === 'linePattern' && (
                          <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                             연결선의 형태를 실선 또는 점선으로 설정합니다.
+                             {t.linePattern[lang]}
                          </div>
                       )}
                    </div>
@@ -801,7 +874,7 @@ export default function BlobTracker() {
                         </button>
                         {activeTooltip === 'smoothness' && (
                             <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                                연결선의 곡률 정도를 조절합니다.
+                                {t.smoothness[lang]}
                             </div>
                         )}
                      </div>
@@ -835,7 +908,7 @@ export default function BlobTracker() {
                     </button>
                     {activeTooltip === 'colorControl' && (
                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
-                            사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다.
+                            {t.colorControl[lang]}
                         </div>
                     )}
                  </div>
