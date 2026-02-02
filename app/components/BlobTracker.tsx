@@ -403,8 +403,8 @@ export default function BlobTracker() {
               isFloating 
                 ? `fixed z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white transform pointer-events-none ${
                     aspectRatio && aspectRatio > 1 
-                      ? 'top-0 left-[4%] w-[92%]' 
-                      : 'top-0 left-4 w-[45%]'
+                      ? 'top-2 left-[4%] w-[92%]' 
+                      : 'top-2 left-4 w-[45%]'
                   }` 
                 : 'relative w-full h-full'
             }`}>
