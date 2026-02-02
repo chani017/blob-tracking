@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blob Tracking Web Application
+브라우저 내에서 실시간으로 작동하는 고성능 비디오 객체 추적 및 시각화 도구입니다. 복잡한 서버 연산 없이 Canvas API와 최적화된 알고리즘을 통해 로컬 비디오 프레임에서 밝은 영역(Blob)을 실시간으로 감지하고 다양한 그래픽 효과를 입힐 수 있습니다.
 
-## Getting Started
+## 주요 기능
 
-First, run the development server:
+### 실시간 객체 감지 (Blob Detection)
+- 고성능 알고리즘: Downscaling과 BFS(너비 우선 탐색) 기반의 플러드 필(Flood Fill) 알고리즘을 활용하여 고해상도 영상에서도 끊김 없는 60FPS 추적을 지원합니다.
+- 민감도 조절 (Threshold): 영상의 빛 밝기에 따른 감지 임계값을 실시간으로 조절할 수 있습니다.
+- 객체 제한 (Max Blobs): 성능 최적화 및 시각적 목적에 따라 추적할 객체의 최대 개수를 설정합니다.
 
+### 자유로운 그래픽 커스터마이징
+- 포인터 스타일: 감지된 객체를 다양한 크기의 사각형(Square)으로 표시하며, 무작위성(Randomness)을 부여해 역동적인 시각화를 연출합니다.
+- 다양한 채우기 모드 (Fill Modes): `None`, `Solid`, `Lighten`, `Invert(Difference)` 모드를 통해 감각적인 오버레이 효과를 적용합니다.
+- 베지어 곡선 연결 (Bezier Lines): 감지된 객체 간의 관계를 실선 혹은 점선의 부드러운 곡선으로 연결합니다. 곡률(Smoothness)을 자유롭게 조절할 수 있습니다.
+- RGB 컬러 컨트롤: 글로벌 컬러 팔레트를 통해 사각형, 라벨, 연결선의 색상을 실시간으로 변경합니다.
+
+### 데이터 시각화 & 인터렉션
+- 동적 라벨링: 객체의 순서(ID) 또는 화면 대비 상대적 크기(Size) 데이터를 실시간 텍스트로 표시합니다.
+- 인터렉티브 가이드: 각 설정 항목 옆의 i 아이콘을 통해 기능별 상세 설명을 확인할 수 있습니다.
+
+### 비디오 처리 & 녹화
+- 로컬 비디오 업로드: 사용자의 로컬 영상을 즉시 불러와 분석할 수 있습니다.
+- MP4 비디오 녹화: 설정한 모든 트래킹 효과가 포함된 결과물을 고품질 60FPS 동영상 파일로 저장 가능합니다.
+
+## UI/UX 디자인 특징
+
+- 데스크톱 스플릿 뷰: 결과물 모니터링과 제어 패널이 분리된 레이아웃으로 전문적인 작업 환경을 제공합니다. (독립 스크롤 및 스크롤바 숨김 적용)
+- 플로팅 모바일 뷰: 모바일 기기에서 스크롤을 내려 세팅을 조절하는 중에도 영상이 화면 상단에 플로팅 창으로 유지됩니다.
+- 미니멀리즘 디자인: 다크 모드 기반의 세련된 블랙 & 화이트 테마를 적용하여 시각적 피로도를 낮추고 작업의 몰입도를 높였습니다.
+
+## 시작하기
+
+### 설치
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/chani017/blob-tracking.git
+cd blob-tracking
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 실행
+```bash
+npm run dev
+```
+브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속하세요.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
+© 2026 @dachanjeong.xyz All rights reserved.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
