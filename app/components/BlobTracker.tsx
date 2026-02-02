@@ -455,7 +455,7 @@ export default function BlobTracker() {
                         </button>
                         {activeTooltip === 'threshold' && (
                             <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
-                                객체 감지 민감도를 조절합니다. 값이 높을수록 가장 밝은 부분만 감지하고, 값이 낮을수록 더 넓은 영역을 감지합니다.
+                                객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다.
                             </div>
                         )}
                     </div>
@@ -463,10 +463,10 @@ export default function BlobTracker() {
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
                         <input 
                         type="range" 
-                        min="30" 
-                        max="250" 
-                        value={280 - threshold} 
-                        onChange={(e) => setThreshold(280 - Number(e.target.value))}
+                        min="50" 
+                        max="350" 
+                        value={380 - threshold} 
+                        onChange={(e) => setThreshold(380 - Number(e.target.value))}
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
                         />
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
