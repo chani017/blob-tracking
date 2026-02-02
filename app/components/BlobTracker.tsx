@@ -441,8 +441,8 @@ export default function BlobTracker() {
         <article className="flex flex-col gap-4 md:w-1/3 md:min-w-[320px] md:h-full md:overflow-y-auto scrollbar-hide">
             <article className="flex flex-col gap-y-3">
             <p className="text-xs text-white font-medium uppercase tracking-tight">Blobs</p>
-            <div className="bg-black p-4 border border-white flex flex-col gap-y-3">
-                <label className="flex flex-col gap-2 relative">
+            <div className="bg-black p-4 border border-white flex flex-col gap-y-4">
+                <label className="flex flex-col gap-3 relative">
                     <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
                         <button 
@@ -454,7 +454,7 @@ export default function BlobTracker() {
                             i
                         </button>
                         {activeTooltip === 'threshold' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                 객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다.
                             </div>
                         )}
@@ -485,7 +485,7 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'maxBlobs' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                     화면에 표시할 최대 객체 수를 설정합니다.
                                 </div>
                             )}
@@ -514,7 +514,7 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'blobSize' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                     감지된 객체를 표시할 사각형의 기본 크기를 조절합니다.
                                 </div>
                             )}
@@ -543,7 +543,7 @@ export default function BlobTracker() {
                                 i
                             </button>
                             {activeTooltip === 'randomness' && (
-                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                                <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                     각 객체의 크기에 무작위성을 부여합니다. 값이 높을수록 객체들 간의 크기 차이가 커집니다.
                                 </div>
                             )}
@@ -570,7 +570,7 @@ export default function BlobTracker() {
                         i
                     </button>
                     {activeTooltip === 'fillMode' && (
-                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                             객체 내부를 채우는 방식을 선택합니다. (Empty: 비어있음, Solid: 채우기, Light: 밝게, Invert: 반전)
                         </div>
                     )}
@@ -614,7 +614,7 @@ export default function BlobTracker() {
                             i
                         </button>
                         {activeTooltip === 'fillRatio' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                 전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다.
                             </div>
                         )}
@@ -648,7 +648,7 @@ export default function BlobTracker() {
                          i
                       </button>
                       {activeTooltip === 'showLabels' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                              각 객체에 라벨을 표시할지 여부를 결정합니다.
                          </div>
                       )}
@@ -673,7 +673,7 @@ export default function BlobTracker() {
                          i
                       </button>
                       {activeTooltip === 'labelType' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                              라벨에 감지된 순서(ID)를 표시할지, 객체의 상대적 크기를 표시할지 선택합니다.
                          </div>
                       )}
@@ -707,7 +707,7 @@ export default function BlobTracker() {
                             i
                         </button>
                         {activeTooltip === 'labelSize' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                 라벨 텍스트의 크기를 조절합니다.
                             </div>
                         )}
@@ -741,7 +741,7 @@ export default function BlobTracker() {
                          i
                       </button>
                       {activeTooltip === 'connectLines' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                              감지된 객체들을 선으로 연결합니다.
                          </div>
                       )}
@@ -766,7 +766,7 @@ export default function BlobTracker() {
                          i
                       </button>
                       {activeTooltip === 'linePattern' && (
-                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                         <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                              연결선의 형태를 실선 또는 점선으로 설정합니다.
                          </div>
                       )}
@@ -800,7 +800,7 @@ export default function BlobTracker() {
                             i
                         </button>
                         {activeTooltip === 'smoothness' && (
-                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                            <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                                 연결선의 곡률 정도를 조절합니다.
                             </div>
                         )}
@@ -834,7 +834,7 @@ export default function BlobTracker() {
                         i
                     </button>
                     {activeTooltip === 'colorControl' && (
-                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight shadow-xl border border-black">
+                        <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
                             사각형과 연결선의 색상을 R(빨강), G(초록), B(파랑) 값을 조절하여 변경합니다.
                         </div>
                     )}
