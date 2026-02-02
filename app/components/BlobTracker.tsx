@@ -455,31 +455,31 @@ export default function BlobTracker() {
              <div className="grid grid-cols-2 gap-2">
                <button 
                 onClick={() => setFillMode('none')}
-                className={`px-3 py-1.5 text-[10px] font-medium uppercase transition-colors border border-white ${fillMode === 'none' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.625rem] font-medium uppercase transition-colors border border-white ${fillMode === 'none' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
                >
                  Empty
                </button>
                <button 
                 onClick={() => setFillMode('solid')}
-                className={`px-3 py-1.5 text-[10px] font-medium uppercase transition-colors border border-white ${fillMode === 'solid' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.625rem] font-medium uppercase transition-colors border border-white ${fillMode === 'solid' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
                >
                  Solid
                </button>
                <button 
                 onClick={() => setFillMode('lighten')}
-                className={`px-3 py-1.5 text-[10px] font-medium uppercase transition-colors border border-white ${fillMode === 'lighten' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.625rem] font-medium uppercase transition-colors border border-white ${fillMode === 'lighten' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
                >
                  Lighten
                </button>
                <button 
                 onClick={() => setFillMode('difference')}
-                className={`px-3 py-1.5 text-[10px] font-medium uppercase transition-colors border border-white ${fillMode === 'difference' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.625rem] font-medium uppercase transition-colors border border-white ${fillMode === 'difference' ? 'bg-white text-black' : 'bg-black text-white hover:bg-white/10'}`}
                >
                  Invert
                </button>
              </div>
              <label className="flex flex-col gap-2 mt-2">
-                <span className="text-[10px] text-white font-medium uppercase tracking-tight">Fill Ratio: {fillRatio}%</span>
+                <span className="text-[0.625rem] text-white font-medium uppercase tracking-tight">Fill Ratio: {fillRatio}%</span>
                 <input 
                     type="range" 
                     min="0" 
@@ -495,31 +495,31 @@ export default function BlobTracker() {
              <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
              <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-red-500 font-bold w-4">R</span>
+                  <span className="text-[0.625rem] text-red-500 font-bold w-4">R</span>
                   <input 
                     type="range" min="0" max="255" value={colorRGB.r} 
                     onChange={(e) => setColorRGB(prev => ({ ...prev, r: Number(e.target.value) }))}
                     className="w-full accent-red-500 h-px bg-white/20 appearance-none cursor-pointer" 
                   />
-                  <span className="text-[10px] text-neutral-500 w-6 text-right font-mono">{colorRGB.r}</span>
+                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.r}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-green-500 font-bold w-4">G</span>
+                  <span className="text-[0.625rem] text-green-500 font-bold w-4">G</span>
                   <input 
                     type="range" min="0" max="255" value={colorRGB.g} 
                     onChange={(e) => setColorRGB(prev => ({ ...prev, g: Number(e.target.value) }))}
                     className="w-full accent-green-500 h-px bg-white/20 appearance-none cursor-pointer" 
                   />
-                  <span className="text-[10px] text-neutral-500 w-6 text-right font-mono">{colorRGB.g}</span>
+                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.g}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-blue-500 font-bold w-4">B</span>
+                  <span className="text-[0.625rem] text-blue-500 font-bold w-4">B</span>
                   <input 
                     type="range" min="0" max="255" value={colorRGB.b} 
                     onChange={(e) => setColorRGB(prev => ({ ...prev, b: Number(e.target.value) }))}
                     className="w-full accent-blue-500 h-px bg-white/20 appearance-none cursor-pointer" 
                   />
-                  <span className="text-[10px] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
+                  <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
                 </div>
              </div>
           </article>
@@ -528,7 +528,7 @@ export default function BlobTracker() {
             <label className="flex flex-col gap-2">
                <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
               <div className="flex items-center gap-3">
-                <span className="text-[10px] w-6 text-neutral-500 uppercase">Low</span>
+                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
                 <input 
                   type="range" 
                   min="30" 
@@ -537,7 +537,7 @@ export default function BlobTracker() {
                   onChange={(e) => setThreshold(280 - Number(e.target.value))}
                   className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
                 />
-                <span className="text-[10px] w-6 text-neutral-500 uppercase">High</span>
+                <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
               </div>
             </label>
           </article>
@@ -585,7 +585,7 @@ export default function BlobTracker() {
           </article>
 
           <footer className="mt-auto">
-            <p className="text-[10px] text-neutral-500 tracking-widest">
+            <p className="text-[0.625rem] text-neutral-500 tracking-widest">
               © 2026 @dachanjeong.xyz All rights reserved.
             </p>
           </footer>
