@@ -481,7 +481,7 @@ export default function BlobTracker() {
       <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8 md:h-full md:overflow-hidden scrollbar-hide">
         <article className="flex-grow flex flex-col gap-4 md:w-2/3 md:h-full md:overflow-y-auto scrollbar-hide">
           <div className="flex justify-between items-center p-4 bg-black border border-white">
-            <h1 className="text-white tracking-tight font-medium text-xs">
+            <h1 className="text-white tracking-tight font-medium text-xs uppercase">
               Blob Tracking <br className="md:hidden" /> for Web
             </h1>
             <div className="flex gap-3">
@@ -495,10 +495,10 @@ export default function BlobTracker() {
                   }`}
                 >
                   <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-white' : 'bg-red-600'}`} />
-                  {isRecording ? 'Stop' : 'Record'}
+                  {isRecording ? 'STOP' : 'RECORD'}
                 </button>
               )}
-              <label className="cursor-pointer bg-black border border-white hover:bg-white transition px-4 py-2 font-medium text-xs hover:text-black tracking-tight">
+              <label className="cursor-pointer bg-black border border-white hover:bg-white transition px-4 py-2 font-medium text-xs hover:text-black tracking-tight uppercase">
                 Upload
                 <input 
                   type="file" 
@@ -525,7 +525,7 @@ export default function BlobTracker() {
                 : 'relative w-full h-full'
             }`}>
               {!videoSrc && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10 text-xs">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 gap-2 z-10 text-xs uppercase">
                 <p className="font-normal">Upload a video to start tracking</p>
                 </div>
               )}
