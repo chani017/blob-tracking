@@ -495,7 +495,7 @@ export default function BlobTracker() {
         <article className="flex-grow flex flex-col gap-4 md:w-2/3 md:h-full md:overflow-y-auto scrollbar-hide">
           <div className="flex justify-between items-center p-4 bg-black border border-white">
             <h1 className="text-white tracking-tight font-medium text-xs">
-              Blob Tracking
+              Blob Tracking <br className="md:hidden" /> for Web
             </h1>
             <div className="flex gap-3">
               {videoSrc && (
