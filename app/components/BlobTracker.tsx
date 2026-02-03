@@ -746,7 +746,7 @@ export default function BlobTracker() {
                   </div>
                   <input 
                      type="range" 
-                     min="10" 
+                     min="5" 
                      max="75" 
                      value={numberSize} 
                      onChange={(e) => setNumberSize(+e.target.value)}

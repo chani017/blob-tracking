@@ -33,7 +33,6 @@ body {
   font-family: "EnvyCodeR Nerd Font Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* QHD/4K 모니터에서 비율 유지를 위한 스케일링 */
 @media (min-width: 1920px) {
   html {
     font-size: clamp(16px, 1vw, 24px);
@@ -49,7 +48,6 @@ body {
   scrollbar-width: none !important;
 }
 
-/* 모바일에서 모든 스크롤바 숨기기 */
 @media (max-width: 768px) {
   *::-webkit-scrollbar {
     display: none !important;
