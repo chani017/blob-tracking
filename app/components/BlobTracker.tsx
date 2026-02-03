@@ -32,11 +32,11 @@ const t = {
   },
   fillRatio: {
       en: "Determines the percentage of objects to apply the fill effect to.",
-      kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 결정합니다."
+      kr: "전체 객체 중 채우기 효과를 적용할 객체의 비율을 설정합니다."
   },
   showLabels: {
       en: "Toggles the display of labels on each blob.",
-      kr: "각 객체에 라벨을 표시할지 여부를 결정합니다."
+      kr: "각 객체에 라벨을 표시할지 여부를 설정합니다."
   },
   labelType: {
       en: "Display detection order (ID) or relative size on labels.",
