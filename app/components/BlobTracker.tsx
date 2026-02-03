@@ -77,7 +77,7 @@ export default function BlobTracker() {
   const [labelType, setLabelType] = useState<'size' | 'id'>('size');
   const [fillMode, setFillMode] = useState<'none' | 'solid' | 'lighten' | 'multiply' | 'difference'>('none');
   const [fillRatio, setFillRatio] = useState(100);
-  const [colorRGB, setColorRGB] = useState({ r: 255, g: 255, b: 255 });
+  const [colorRGB, setColorRGB] = useState({ r: 250, g: 250, b: 250 });
   const [lineSmoothness, setLineSmoothness] = useState(0);
   const [lineDashStyle, setLineDashStyle] = useState<'solid' | 'dashed'>('solid');
   const [isRecording, setIsRecording] = useState(false);

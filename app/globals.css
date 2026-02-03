@@ -13,6 +13,7 @@
 }
 
 @theme inline {
+  --color-white: #fafafa;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -58,7 +59,7 @@ input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 15px;
   height: 15px;
-  background: white;
+  background: #fafafa;
   cursor: pointer;
   border: 1px solid black;
 }
@@ -66,7 +67,7 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-moz-range-thumb {
   width: 15px;
   height: 15px;
-  background: white;
+  background: #fafafa;
   cursor: pointer;
   border: 1px solid black;
   border-radius: 0;
