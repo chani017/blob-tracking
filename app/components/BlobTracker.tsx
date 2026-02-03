@@ -85,10 +85,8 @@ export default function BlobTracker() {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [lang, setLang] = useState<'en' | 'kr'>('kr');
 
-
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
-
   const stateRef = useRef({
     maxBlobs,
     showNumbers,
@@ -131,8 +129,6 @@ export default function BlobTracker() {
       if (videoSrc) URL.revokeObjectURL(videoSrc);
     };
   }, [videoSrc]);
-
-
 
   const handleToggleRecording = () => {
     if (isRecording) {
@@ -588,7 +584,7 @@ export default function BlobTracker() {
                         min="50" 
                         max="350" 
                         value={380 - threshold} 
-                        onChange={(e) => setThreshold(380 - Number(e.target.value))}
+                        onChange={(e) => setThreshold(380 - +e.target.value)}
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer" 
                         />
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">High</span>
@@ -608,7 +604,7 @@ export default function BlobTracker() {
                         min="1" 
                         max="20" 
                         value={maxBlobs} 
-                        onChange={(e) => setMaxBlobs(Number(e.target.value))}
+                        onChange={(e) => setMaxBlobs(+e.target.value)}
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
@@ -626,7 +622,7 @@ export default function BlobTracker() {
                         min="10" 
                         max="150" 
                         value={blobSize} 
-                        onChange={(e) => setBlobSize(Number(e.target.value))}
+                        onChange={(e) => setBlobSize(+e.target.value)}
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
@@ -644,7 +640,7 @@ export default function BlobTracker() {
                         min="0" 
                         max="300" 
                         value={sizeRandomness} 
-                        onChange={(e) => setSizeRandomness(Number(e.target.value))}
+                        onChange={(e) => setSizeRandomness(+e.target.value)}
                         className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                     />
                 </label>
@@ -693,7 +689,7 @@ export default function BlobTracker() {
                     min="0" 
                     max="100" 
                     value={fillRatio} 
-                    onChange={(e) => setFillRatio(Number(e.target.value))}
+                    onChange={(e) => setFillRatio(+e.target.value)}
                     className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                   />
               </label>
@@ -753,7 +749,7 @@ export default function BlobTracker() {
                      min="10" 
                      max="75" 
                      value={numberSize} 
-                     onChange={(e) => setNumberSize(Number(e.target.value))}
+                     onChange={(e) => setNumberSize(+e.target.value)}
                      className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                    />
                 </label>
@@ -813,7 +809,7 @@ export default function BlobTracker() {
                      min="0" 
                      max="100" 
                      value={lineSmoothness} 
-                     onChange={(e) => setLineSmoothness(Number(e.target.value))}
+                     onChange={(e) => setLineSmoothness(+e.target.value)}
                      className="w-full accent-white h-px bg-white/20 appearance-none cursor-pointer my-2" 
                    />
                 </label>
@@ -834,7 +830,7 @@ export default function BlobTracker() {
                      <span className="text-[0.625rem] text-red-500 font-bold w-4">R</span>
                      <input 
                        type="range" min="0" max="255" value={colorRGB.r} 
-                       onChange={(e) => setColorRGB(prev => ({ ...prev, r: Number(e.target.value) }))}
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, r: +e.target.value }))}
                        className="w-full accent-red-500 h-px bg-white/20 appearance-none cursor-pointer" 
                      />
                      <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.r}</span>
@@ -843,7 +839,7 @@ export default function BlobTracker() {
                      <span className="text-[0.625rem] text-green-500 font-bold w-4">G</span>
                      <input 
                        type="range" min="0" max="255" value={colorRGB.g} 
-                       onChange={(e) => setColorRGB(prev => ({ ...prev, g: Number(e.target.value) }))}
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, g: +e.target.value }))}
                        className="w-full accent-green-500 h-px bg-white/20 appearance-none cursor-pointer" 
                      />
                      <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.g}</span>
@@ -852,7 +848,7 @@ export default function BlobTracker() {
                      <span className="text-[0.625rem] text-blue-500 font-bold w-4">B</span>
                      <input 
                        type="range" min="0" max="255" value={colorRGB.b} 
-                       onChange={(e) => setColorRGB(prev => ({ ...prev, b: Number(e.target.value) }))}
+                       onChange={(e) => setColorRGB(prev => ({ ...prev, b: +e.target.value }))}
                        className="w-full accent-blue-500 h-px bg-white/20 appearance-none cursor-pointer" 
                      />
                      <span className="text-[0.625rem] text-neutral-500 w-6 text-right font-mono">{colorRGB.b}</span>
