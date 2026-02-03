@@ -33,6 +33,16 @@ body {
   font-family: "EnvyCodeR Nerd Font Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+::selection {
+  background: #fafafa;
+  color: #000;
+}
+
+::-moz-selection {
+  background: #fafafa;
+  color: #000;
+}
+
 @media (min-width: 1920px) {
   html {
     font-size: clamp(16px, 1vw, 24px);
