@@ -478,7 +478,7 @@ export default function BlobTracker() {
 
   return (
     <main className="flex flex-col items-center w-full min-h-screen md:min-h-0 md:h-screen md:overflow-hidden bg-black text-white p-4 md:p-8 scrollbar-hide">
-      <section className="max-w-6xl w-full flex flex-col md:flex-row gap-8 md:h-full md:overflow-hidden scrollbar-hide">
+      <section className="max-w-7xl w-full flex flex-col md:flex-row gap-8 md:h-full md:overflow-hidden scrollbar-hide">
         <article className="flex-grow flex flex-col gap-4 md:w-2/3 md:h-full md:overflow-y-auto scrollbar-hide">
           <div className="flex justify-between items-center p-4 bg-black border border-white">
             <h1 className="text-white tracking-tight font-medium text-xs uppercase">
