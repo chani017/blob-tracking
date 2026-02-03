@@ -862,7 +862,7 @@ export default function BlobTracker() {
           </article>
 
           <footer className="mt-auto">
-            <p className="text-[0.625rem] text-neutral-500 tracking-widest">
+            <p className="text-[0.625rem] text-neutral-500 tracking-widest uppercase">
               © 2026 @dachanjeong.xyz All rights reserved.
             </p>
           </footer>
