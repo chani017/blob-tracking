@@ -9,7 +9,7 @@ interface BlobPoint {
   size: number;
 }
 
-const t = {
+const help = {
   threshold: {
       en: "Adjusts detection sensitivity. Higher values detect darker areas, lower values detect only the brightest.",
       kr: "객체 감지 민감도를 조절합니다. 값이 높아질수록 어두운 영역까지 더 많이 감지하고, 값이 낮아질수록 가장 밝은 영역만 감지합니다."
@@ -459,7 +459,7 @@ export default function BlobTracker() {
   const renderTooltip = (id: string, text: string) => {
     if (activeTooltip !== id) return null;
     return (
-      <div className="absolute top-6 left-0 z-50 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
+      <div className="absolute top-6 left-0 z-10 w-full bg-white text-black p-2 text-[0.625rem] leading-normal font-medium uppercase tracking-tight">
         {text}
       </div>
     );
@@ -579,7 +579,7 @@ export default function BlobTracker() {
                     <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Threshold</span>
                         {renderInfoButton('threshold')}
-                        {renderTooltip('threshold', t.threshold[lang])}
+                        {renderTooltip('threshold', help.threshold[lang])}
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="text-[0.625rem] w-6 text-neutral-500 uppercase">Low</span>
@@ -599,7 +599,7 @@ export default function BlobTracker() {
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Max Blobs</span>
                             {renderInfoButton('maxBlobs')}
-                            {renderTooltip('maxBlobs', t.maxBlobs[lang])}
+                            {renderTooltip('maxBlobs', help.maxBlobs[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{maxBlobs}</span>
                     </div>
@@ -617,7 +617,7 @@ export default function BlobTracker() {
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size</span>
                             {renderInfoButton('blobSize')}
-                            {renderTooltip('blobSize', t.blobSize[lang])}
+                            {renderTooltip('blobSize', help.blobSize[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{blobSize}px</span>
                     </div>
@@ -635,7 +635,7 @@ export default function BlobTracker() {
                         <div className="flex items-center gap-1.5">
                             <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Size Randomness</span>
                             {renderInfoButton('randomness')}
-                            {renderTooltip('randomness', t.randomness[lang])}
+                            {renderTooltip('randomness', help.randomness[lang])}
                         </div>
                         <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{sizeRandomness}%</span>
                     </div>
@@ -651,7 +651,7 @@ export default function BlobTracker() {
                 <div className="flex items-center gap-1.5 relative">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Blob Fill Mode</span>
                     {renderInfoButton('fillMode')}
-                    {renderTooltip('fillMode', t.fillMode[lang])}
+                    {renderTooltip('fillMode', help.fillMode[lang])}
                 </div>
              <div className="grid grid-cols-2 gap-2">
                <button 
@@ -684,7 +684,7 @@ export default function BlobTracker() {
                     <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Fill Ratio</span>
                         {renderInfoButton('fillRatio')}
-                        {renderTooltip('fillRatio', t.fillRatio[lang])}
+                        {renderTooltip('fillRatio', help.fillRatio[lang])}
                     </div>
                     <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{fillRatio}%</span>
                  </div>
@@ -707,7 +707,7 @@ export default function BlobTracker() {
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Show Labels</span>
                       {renderInfoButton('showLabels')}
-                      {renderTooltip('showLabels', t.showLabels[lang])}
+                      {renderTooltip('showLabels', help.showLabels[lang])}
                    </div>
                    <button 
                       onClick={() => setShowNumbers(!showNumbers)}
@@ -721,7 +721,7 @@ export default function BlobTracker() {
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Label Type</span>
                       {renderInfoButton('labelType')}
-                      {renderTooltip('labelType', t.labelType[lang])}
+                      {renderTooltip('labelType', help.labelType[lang])}
                    </div>
                    <div className="flex border border-white">
                      <button 
@@ -744,7 +744,7 @@ export default function BlobTracker() {
                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Label Size</span>
                         {renderInfoButton('labelSize')}
-                        {renderTooltip('labelSize', t.labelSize[lang])}
+                        {renderTooltip('labelSize', help.labelSize[lang])}
                      </div>
                      <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{numberSize}px</span>
                   </div>
@@ -767,7 +767,7 @@ export default function BlobTracker() {
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Connect Lines</span>
                       {renderInfoButton('connectLines')}
-                      {renderTooltip('connectLines', t.connectLines[lang])}
+                      {renderTooltip('connectLines', help.connectLines[lang])}
                    </div>
                    <button 
                       onClick={() => setShowLines(!showLines)}
@@ -781,7 +781,7 @@ export default function BlobTracker() {
                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-white font-medium uppercase tracking-tight">Line Pattern</span>
                       {renderInfoButton('linePattern')}
-                      {renderTooltip('linePattern', t.linePattern[lang])}
+                      {renderTooltip('linePattern', help.linePattern[lang])}
                    </div>
                    <div className="flex border border-white">
                      <button 
@@ -804,7 +804,7 @@ export default function BlobTracker() {
                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-white font-medium uppercase tracking-tight">Line Smoothness</span>
                         {renderInfoButton('smoothness')}
-                        {renderTooltip('smoothness', t.smoothness[lang])}
+                        {renderTooltip('smoothness', help.smoothness[lang])}
                      </div>
                      <span className="text-xs text-neutral-500 font-light uppercase tracking-tight">{lineSmoothness}%</span>
                   </div>
@@ -827,7 +827,7 @@ export default function BlobTracker() {
                  <div className="flex items-center gap-1.5 relative">
                     <span className="text-xs text-white font-medium uppercase tracking-tight">Color Control</span>
                     {renderInfoButton('colorControl')}
-                    {renderTooltip('colorControl', t.colorControl[lang])}
+                    {renderTooltip('colorControl', help.colorControl[lang])}
                  </div>
                 <div className="flex flex-col gap-3">
                    <div className="flex items-center gap-3">
