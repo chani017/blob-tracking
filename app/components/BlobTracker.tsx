@@ -85,7 +85,7 @@ export default function BlobTracker() {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [lang, setLang] = useState<'en' | 'kr'>('kr');
 
-  const [fontLoaded, setFontLoaded] = useState(false);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -102,13 +102,12 @@ export default function BlobTracker() {
     fillRatio,
     colorRGB,
     lineSmoothness,
-    lineDashStyle,
-    fontLoaded
+    lineDashStyle
   });
 
   useEffect(() => {
-    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle, fontLoaded };
-  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle, fontLoaded]);
+    stateRef.current = { maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle };
+  }, [maxBlobs, showNumbers, showLines, threshold, blobSize, sizeRandomness, numberSize, labelType, fillMode, fillRatio, colorRGB, lineSmoothness, lineDashStyle]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -133,11 +132,7 @@ export default function BlobTracker() {
     };
   }, [videoSrc]);
 
-  useEffect(() => {
-    document.fonts.load('14px "EnvyCodeR Nerd Font Mono"').then(() => {
-        setFontLoaded(true);
-    });
-  }, []);
+
 
   const handleToggleRecording = () => {
     if (isRecording) {
@@ -147,17 +142,12 @@ export default function BlobTracker() {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-
-      const types = [
-        'video/mp4;codecs=h264',
-        'video/mp4',
-      ];
-      
-      const supportedType = types.find(type => MediaRecorder.isTypeSupported(type)) || 'video/mp4';
-      const extension = supportedType.includes('mp4') ? 'mp4' : 'webm';
+      const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=h264') 
+        ? 'video/mp4;codecs=h264' 
+        : 'video/mp4';
 
       const stream = canvas.captureStream(60);
-      const recorder = new MediaRecorder(stream, { mimeType: supportedType });
+      const recorder = new MediaRecorder(stream, { mimeType });
       
       mediaRecorderRef.current = recorder;
       chunksRef.current = [];
@@ -167,11 +157,11 @@ export default function BlobTracker() {
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: supportedType });
+        const blob = new Blob(chunksRef.current, { type: mimeType });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `blob-tracking-${Date.now()}.${extension}`;
+        a.download = `blob-tracking-${Date.now()}.mp4`;
         a.click();
         URL.revokeObjectURL(url);
       };
@@ -204,8 +194,7 @@ export default function BlobTracker() {
         threshold: currentThresh, 
         blobSize: currentSize,
         sizeRandomness: currentRandom,
-        numberSize: currentNumSize,
-        fontLoaded: currentFontReady
+        numberSize: currentNumSize
       } = stateRef.current;
 
       if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
@@ -382,8 +371,8 @@ export default function BlobTracker() {
       }
 
       activeBlobs.forEach(blob => {
-        const randW = ((Math.sin(blob.id * 1234.567) + 1) / 2) * 2 - 1;
-        const randH = ((Math.sin(blob.id * 8910.111) + 1) / 2) * 2 - 1;
+        const randW = Math.sin(blob.id * 1234.567);
+        const randH = Math.sin(blob.id * 8910.111);
 
         const width = currentSize * (1 + randW * (currentRandom / 100));
         const height = currentSize * (1 + randH * (currentRandom / 100));
@@ -403,10 +392,8 @@ export default function BlobTracker() {
             ctx.save();
             ctx.fillStyle = colorStr;
             if (currentFill === 'solid') {
-                ctx.globalAlpha = 1.0;
                 ctx.fill();
             } else if (currentFill === 'difference') {
-                ctx.globalAlpha = 1.0;
                 ctx.globalCompositeOperation = 'difference';
                 ctx.fill();
             } else if (currentFill === 'lighten') {
