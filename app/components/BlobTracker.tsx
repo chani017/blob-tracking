@@ -429,10 +429,7 @@ export default function BlobTracker() {
   }, [videoSrc]);
 
   useEffect(() => {
-    if (!videoSrc) {
-      setIsFloating(false);
-      return;
-    }
+    if (!videoSrc) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -512,7 +509,7 @@ export default function BlobTracker() {
             style={{ aspectRatio: aspectRatio ? `${aspectRatio}` : '16 / 9' }}
           >
             <div className={`${
-              isFloating 
+              videoSrc && isFloating
                 ? `fixed z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white transform pointer-events-none ${
                     aspectRatio && aspectRatio > 1 
                       ? 'top-0 left-[4%] w-[92%]' 
