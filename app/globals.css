@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'EnvyCodeR Nerd Font Mono';
-  src: url('https://cdn.jsdelivr.net/gh/ryanoasis/nerd-fonts@v3.1.1/patched-fonts/EnvyCodeR/Regular/EnvyCodeRNerdFontMono-Regular.ttf') format('truetype');
+  font-family: "EnvyCodeR Nerd Font Mono";
+  src: url("https://cdn.jsdelivr.net/gh/ryanoasis/nerd-fonts@v3.1.1/patched-fonts/EnvyCodeR/Regular/EnvyCodeRNerdFontMono-Regular.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -10,12 +11,13 @@
 :root {
   --background: #efefef;
   --foreground: #171717;
+  --system-color: #fafafa;
 }
 
 @theme inline {
-  --color-white: #fafafa;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-system-color: var(--system-color);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -24,13 +26,17 @@
   :root {
     --background: #0a0a0a;
     --foreground: #efefef;
+    --system: #0a0a0a;
+    --system-color: #c6c6c6;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "EnvyCodeR Nerd Font Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    "EnvyCodeR Nerd Font Mono", ui-monospace, "Liberation Mono", "Courier New",
+    monospace;
 }
 
 ::selection {
